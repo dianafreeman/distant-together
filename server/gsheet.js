@@ -1,8 +1,8 @@
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
+const creds = require( './utils/credentials');
 
-const SPREADSHEET_ID = `1B5TGoyQFAvqz0ZVnaJPGPbIFPiIvv4BoVr1flLnITRg`
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // The file token.json stores the user's access and refresh tokens, and is
@@ -10,12 +10,11 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // time.
 const TOKEN_PATH = 'token.json';
 
-// Load client secrets from a local file.
-fs.readFile('./server/utils/credentials.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
-  // Authorize a client with credentials, then call the Google Sheets API.
-  authorize(JSON.parse(content), getResources);
-});
+try {
+  authorize(creds, getResources);
+} catch (err) {
+  console.error(err)
+}
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -75,13 +74,11 @@ function getNewToken(oAuth2Client, callback) {
 function getResources(auth) {
   const sheets = google.sheets({version: 'v4', auth});
   sheets.spreadsheets.values.get({
-    spreadsheetId: '1B5TGoyQFAvqz0ZVnaJPGPbIFPiIvv4BoVr1flLnITRg',
+    spreadsheetId: process.env.GOOGLE_SPREADSHEET_ID,
     range: ['Clinical!1:985'],
   }, (err, res) => {
     if (err) return console.log('The API returned an error: ' + err);
-    console.log(res.data.values)
-    const rows = res.data.values;
-    console.log(rows.length)
+    return res
 
   });
 }
