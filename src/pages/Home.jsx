@@ -11,19 +11,15 @@ const url = (name, wrap = false) =>
   }`;
 
 const Section = styled.section`
-  background-color: ${colors.sky};
-  min-height: 80vh;
+  min-height: calc(100vh - 80px);
+  position: relative;
+
 `;
 const Home = () => {
   return (
-    <>
       <Section>
         <h1>This is a title</h1>
       </Section>
-      <Section>
-        <h1>This is a title</h1>
-      </Section>
-    </>
   );
 };
 
