@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './lib/flat-ui/dist/css/flat-ui.min.css';
 import App from './components/App';
+import 'jquery';
+import 'bootstrap/dist/js/bootstrap.bundle'
+import './lib/flat-ui/dist/css/flat-ui.min.css';
+
 import * as serviceWorker from './serviceWorker';
 
 

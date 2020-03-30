@@ -15,7 +15,6 @@ const Section = styled.section`
   min-height: 80vh;
 `;
 const Home = () => {
-  this.parallax = null;
   return (
     <>
       <Section>
