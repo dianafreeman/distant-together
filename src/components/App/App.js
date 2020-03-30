@@ -4,7 +4,8 @@ import Home from "../../pages/Home";
 import Resources from "../../pages/Resources";
 import Team from "../../pages/Team";
 
-function App() {
+const App = () => {
+
   return (
     <Router>
       <div>
@@ -34,5 +35,5 @@ function App() {
     </Router>
   );
 }
-``
+
 export default App;
