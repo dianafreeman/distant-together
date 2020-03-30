@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Parallax, ParallaxLayer } from "react-spring/renderprops-addons";
 import colors from "../theme/colors";
+import List from '../components/List'
 
 const url = (name, wrap = false) =>
   `${
@@ -15,10 +16,16 @@ const Section = styled.section`
   position: relative;
 
 `;
-const Home = () => {
+
+const Home = ({resources}) => {
   return (
       <Section>
         <h1>This is a title</h1>
+
+    <List data={resources}/>
+        <pre>
+          {/* {JSON.stringify(resources, null, 2)} */}
+        </pre>
       </Section>
   );
 };
