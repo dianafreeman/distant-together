@@ -25,32 +25,32 @@ const Home = ({ resources }) => {
   return (
     <>
       <NavBar />
-      <Parallax pages={2}>
-        <Section offset={0} speed={0.2} bg={colors.sky}>
-          <ParallaxLayer offset={0} speed={0.5}>
-            <div className="container-fluid">
-              <div className="row">
-                <Col>
-                  <ColumnTitle>{sitemeta.title}</ColumnTitle>
-                  <List data={resources} />
-                </Col>
-              </div>
-            </div>
-          </ParallaxLayer>
-          <Col bg={colors["sky-dark"]}>
-            <p>Some other stuff here</p>
-          </Col>
-        </Section>
-        <Section speed={0.2} bg={colors["green-dark"]}>
-          <Col speed={0.5}>
-            <h1>{sitemeta.title}</h1>
+      {/* <Parallax pages={2}> */}
+      {/* <Section offset={0} speed={0.2} bg={colors.sky}> */}
+      {/* <ParallaxLayer offset={0} speed={0.5}> */}
+      <div className="container-fluid">
+        <div className="row" style={{ paddingTop: "100px" }}>
+          <Col>
+            <ColumnTitle>{sitemeta.title}</ColumnTitle>
             <List data={resources} />
           </Col>
-          <Col bg={colors.blue}>
+        </div>
+      </div>
+      {/* </ParallaxLayer> */}
+      {/* <Col bg={colors["sky-dark"]}>
             <p>Some other stuff here</p>
-          </Col>
-        </Section>
-      </Parallax>
+          </Col> */}
+      {/* </Section> */}
+      {/* <Section speed={0.2} bg={colors["green-dark"]}> */}
+      {/* <Col speed={0.5}>
+        <h1>{sitemeta.title}</h1>
+        <List data={resources} />
+      </Col>
+      <Col bg={colors.blue}>
+        <p>Some other stuff here</p>
+      </Col> */}
+      {/* </Section> */}
+      {/* </Parallax> */}
     </>
   );
 };
