@@ -35,7 +35,8 @@
     "start": "PORT=3000 babel-node ./server/app.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "yarn && yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"
