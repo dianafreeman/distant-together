@@ -9,7 +9,7 @@ const ItemWrap = styled.div`
   margin: 1em auto;
 `;
 const BoxRow = ({ title, source, link }) => {
-  return (
+  return title && link ? (
     <ItemWrap>
       {title && <span>{title}</span>}
       <br />
@@ -19,9 +19,8 @@ const BoxRow = ({ title, source, link }) => {
       </a>
       {source && <small>Source: {source}</small>}
     </ItemWrap>
-  );
+  ) : false
 };
-
 
 const List = ({ data }) => {
   return (

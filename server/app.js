@@ -18,24 +18,20 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.resolve("../client/public/index.html")));
+app.use(express.static(path.resolve(__dirname, "../build")));
 
 // app.use("/", indexRouter);
 app.use("/api/resources", resourcesRouter);
-app.get("/", (req, res) => {
-  res.sendFile(path.resolve("../public/index.html"));
+app.get("*", (req, res) => {
+  console.log("LOGGING PATH");
+  console.log(path.resolve(__dirname, "../build"));
+  res.sendFile(path.resolve(__dirname, "../build"));
 });
 
 const server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
 server.listen(port, () => {
   console.log(`Listening on port ${server.address().port}`);
 });
-
 server.on("error", err => {
   console.error(err);
 });

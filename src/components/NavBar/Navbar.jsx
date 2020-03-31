@@ -3,7 +3,11 @@ import sitemeta from "../../lib/sitemeta";
 import styled from "styled-components";
 
 const NavWrapper = styled.nav`
+display: block;
   border-radius: unset;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
 `;
 
 const NavItem = ({ slug, title }) => {
