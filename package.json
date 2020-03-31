@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "concurrently": "^5.1.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -28,9 +29,10 @@
     "styled-components": "^5.0.1"
   },
   "scripts": {
-    "dev:client": "react-scripts start",
-    "dev:server": "nodemon --exec babel-node ./server/app.js",
-    "start": "babel-node ./server/app.js",
+    "dev:client": "PORT=3000 react-scripts start",
+    "dev:server": "PORT=3001 nodemon --exec babel-node ./server/app.js",
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+    "start": "PORT=3000 babel-node ./server/app.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
