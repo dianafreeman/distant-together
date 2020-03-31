@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
     "@babel/node": "^7.8.7",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -32,7 +33,7 @@
     "dev:client": "PORT=3000 react-scripts start",
     "dev:server": "PORT=3001 nodemon --exec babel-node ./server/app.js",
     "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
-    "start": "PORT=3000 babel-node ./server/app.js",
+    "start": "babel-node ./server/app.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

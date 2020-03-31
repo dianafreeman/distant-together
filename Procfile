@@ -1,1 +1,1 @@
-web: yarn start
+web:npx babel-node ./server/app.js
