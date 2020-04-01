@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Index from "../../pages";
-// import Resources from "../../pages/Resources";
+import Index from "../../views/Home";
+import Resources from "../../views/Resources";
 import Axios from "axios";
-// import Team from "../../pages/Team";
 import "./App.scss";
 
 class App extends Component {
@@ -24,7 +23,10 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Index resources={{ ...this.state.resources }} />
+            <Index />
+          </Route>
+          <Route exact path="/">
+            <Resources resources={{ ...this.state.resources }} />
           </Route>
         </Switch>
       </Router>

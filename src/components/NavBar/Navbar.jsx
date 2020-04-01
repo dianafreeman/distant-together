@@ -3,7 +3,7 @@ import sitemeta from "../../lib/sitemeta";
 import styled from "styled-components";
 
 const NavWrapper = styled.nav`
-display: block;
+  display: block;
   border-radius: unset;
   position: fixed;
   z-index: 1;
@@ -18,11 +18,10 @@ const NavItem = ({ slug, title }) => {
   );
 };
 
-
 const Navbar = () => {
   return (
     <NavWrapper
-      className="navbar navbar-inverse navbar-expand-lg"
+      className="navbar navbar-inverse navbar-expand-sm"
       role="navigation"
     >
       <button
