@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Parallax, ParallaxLayer } from "react-spring/renderprops-addons";
-import colors from "../theme/colors";
-import List from "../components/List";
+import colors from "../lib/theme/colors";
+// import List from "../components/List";
 import NavBar from "../components/NavBar";
 import PageSection from "./layouts/Section";
 import sitemeta from "../lib/sitemeta";
@@ -15,7 +15,7 @@ const ColumnTitle = styled.h1`
   margin: auto;
   display: inline-flex;
 `;
-const Home = ({ resources }) => {
+const Resources = ({ resources }) => {
   return (
     <>
       <NavBar />
@@ -27,13 +27,14 @@ const Home = ({ resources }) => {
               <ColumnTitle>{sitemeta.title}</ColumnTitle>
             </Col>
           </PageSection>
-          <PageSection bg={colors["blue-dark"]} className={"text-center"}>
-            <List data={resources} />
-          </PageSection>
+          <PageSection
+            bg={colors["blue-dark"]}
+            className={"text-center"}
+          ></PageSection>
         </ParallaxLayer>
       </Parallax>
     </>
   );
 };
 
-export default Home;
+export default Resources;

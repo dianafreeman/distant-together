@@ -1,18 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/App';
-import 'jquery';
-import 'bootstrap/dist/js/bootstrap.bundle'
-import './lib/flat-ui/dist/css/flat-ui.min.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./components/App";
 
-import * as serviceWorker from './serviceWorker';
-
+import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

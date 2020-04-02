@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Index from "../../views/Home";
+import Home from "../../views/Home";
 import Resources from "../../views/Resources";
 import Axios from "axios";
 import "./App.scss";
@@ -14,19 +14,19 @@ class App extends Component {
   }
 
   componentDidMount() {
-    Axios.get("/api/resources").then(resources => {
-      this.setState({ resources: resources.data });
-    });
+    // Axios.get("/api/resources").then(resources => {
+    //   this.setState({ resources: resources.data.resources });
+    // });
   }
   render() {
     return (
       <Router>
         <Switch>
           <Route exact path="/">
-            <Index />
+            <Home resources={{ ...this.state.resources }} />
           </Route>
           <Route exact path="/">
-            <Resources resources={{ ...this.state.resources }} />
+            {/* <Resources resources={{ ...this.state.resources }} /> */}
           </Route>
         </Switch>
       </Router>
