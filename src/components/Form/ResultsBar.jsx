@@ -3,13 +3,7 @@ import styled from "styled-components";
 import colors from "../../lib/theme/colors";
 
 const Wrapper = styled.div`
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  background: ${colors["grey-dark"]};
-  color: ${colors.white};
-  padding: 0.5em;
+
 `;
 
 const Count = styled.span``;
@@ -21,12 +15,12 @@ const Toggle = styled.button`
   color: ${colors.white}
 
 `;
-const ResultsBar = ({ listLength, onToggleClick }) => {
+const ResultsBar = ({ listLength, onToggleClick, ...rest }) => {
   return (
-    <Wrapper>
+    <>
       <Count>Showing {listLength} results</Count>
       <Toggle onClick={onToggleClick} > <i className="fas fa-arrow-right"> </i> </Toggle>
-    </Wrapper>
+    </>
   );
 };
 

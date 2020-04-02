@@ -21,10 +21,17 @@ const Title = styled.p`
   padding: unset;
 `;
 const GoArrow = styled.a`
-  float: right;
-  border-radius: 100px;
-  border: 1px solid ${colors["grey-dark"]};
-  color: ${colors["grey-dark"]};
+color: ${colors.white}
+border-radius: 100px;
+border: 1px solid ${colors["grey-dark"]};
+color: ${colors["grey-dark"]};
+border-radius: 100%;
+padding: 0.5em 0.75em;
+font-size: 1.5em;
+margin: auto;
+&:hover, &:active, &:focus{
+  border-color: ${colors.blue};
+}
 `;
 
 const FlexCol = styled.div`
@@ -37,6 +44,15 @@ const Source = styled.p`
   a {
   }
 `;
+
+const Toggle = styled.a`
+  background: none;
+  display: block;
+  border-radius: 100px;
+  outline: none;
+  border: 1px solid white;
+`;
+
 const ListItem = ({ item }) => {
   return (
     <ListItemWrap className="card">
@@ -46,11 +62,9 @@ const ListItem = ({ item }) => {
           <Source>Source: {item["Source (Organization)"]}</Source>
         </div>
       </FlexCol>
-
-      <button>
-        <i class="fas fa-arrow-right"></i>
-      </button>
-      <GoArrow href={item.Link} target="_blank"></GoArrow>
+        <GoArrow href={item.Link}>
+          <i className="fas fa-arrow-right"> </i>
+        </GoArrow>
     </ListItemWrap>
   );
 };
