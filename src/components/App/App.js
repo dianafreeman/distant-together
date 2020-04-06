@@ -5,7 +5,6 @@ import Resources from "../../pages/Resources";
 import Team from "../../pages/Team";
 
 const App = () => {
-
   return (
     <Router>
       <div>
@@ -34,6 +33,6 @@ const App = () => {
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;
