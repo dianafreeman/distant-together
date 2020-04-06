@@ -1,0 +1,23 @@
+$theme-colors: (
+  "primary": #75c4e2,
+);
+
+@import "bootstrap/scss/_functions";
+@import "bootstrap/scss/_variables";
+@import "bootstrap/scss/_mixins";
+@import "bootstrap/scss/_reboot";
+
+// // Optional
+@import "bootstrap/scss/_reboot";
+@import "bootstrap/scss/_type";
+@import "bootstrap/scss/_images";
+@import "bootstrap/scss/_code";
+@import "bootstrap/scss/_grid";
+
+#root {
+  background-color: #f9f8f6;
+}
+
+#html {
+  font-family: "Open Sans", sans-serif;
+}
