@@ -4,11 +4,11 @@ import { writeFile } from "fs";
 
 const router = express.Router();
 
-const URL = `https://sheets.googleapis.com/v4/spreadsheets/1B5TGoyQFAvqz0ZVnaJPGPbIFPiIvv4BoVr1flLnITRg/values/Clinical!1:198?key=AIzaSyCKy9qEhymMYkaW3m-92W8WIRbk5UPlP6w`;
 /* GET resources listing. */
+const URL = `https://sheets.googleapis.com/v4/spreadsheets/${process.env.GOOGLE_SPREADSHEET_ID}/values/Clinical!1:198?key=${process.env.GOOGLE_SHEET_API_KEY}`;
+
 router.get("/", async function (req, res, next) {
   const resp = await axios.get(URL);
-
   res.json({ resources: resp.data.values });
 });
 

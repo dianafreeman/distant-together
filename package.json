@@ -28,11 +28,19 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-spring": "^8.0.27",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "bootstrap": "^4.4.1",
+    "concurrently": "^5.1.0",
+    "mobx": "^5.15.4",
+    "mobx-react": "^6.1.8",
+    "react-bootstrap": "^1.0.0"
+
   },
   "scripts": {
-    "start": "react-scripts start",
-    "dev:server": "nodemon --exec babel-node ./server/app.js",
+    "dev:client": "PORT=3000 react-scripts start",
+    "dev:server": "PORT=3001 nodemon --exec babel-node ./server/app.js",
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+    "start": "babel-node ./server/app.js",
     "server": "nodemon --exec babel-node ./server/app.js",
     "build": "react-scripts build",
     "test:client": "jest src --config=config/test.config.json",
