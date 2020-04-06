@@ -36,7 +36,7 @@ server.listen(port, () => {
   console.log(`Listening on port ${server.address().port}`);
 });
 
-server.on("error", err => {
+server.on("error", (err) => {
   console.error(err);
 });
 
