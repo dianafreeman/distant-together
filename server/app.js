@@ -7,6 +7,8 @@ import dotenv from "dotenv";
 import http from "http";
 import normalizePort from "./utils/normalizePort";
 import resourcesRouter from "./routes/resources";
+import areasRouter from "./routes/areas";
+import tagsRouter from "./routes/tags";
 
 dotenv.config();
 
@@ -22,6 +24,8 @@ app.use(express.static(path.resolve("../client/public/index.html")));
 
 // app.use("/", indexRouter);
 app.use("/api/resources", resourcesRouter);
+app.use("/api/areas", areasRouter);
+app.use("/api/tags", tagsRouter);
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("../public/index.html"));
 });

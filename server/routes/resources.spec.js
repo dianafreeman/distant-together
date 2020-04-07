@@ -6,7 +6,7 @@ import {
   CACHE_PATTERN,
   cachedExists,
   isMoreThan24HoursAgo,
-} from "./resources.utils";
+} from "./route.utils";
 
 chai.use(sinonChai);
 
@@ -34,7 +34,7 @@ describe("Resource Utilities", () => {
       expect(cachedExists("dbfuaoeshr")).to.equal(false);
     });
   });
-  describe("isExpired", () => {
+  describe("isMoreThan24HoursAgo", () => {
     it("should be false if timestamp is current", () => {
       let current = new Date().getTime();
       expect(isMoreThan24HoursAgo(current)).to.equal(false);
@@ -46,8 +46,11 @@ describe("Resource Utilities", () => {
     });
 
     it("should be true if 25 hours ago", () => {
-      let expired = new Date().getTime() - 25 * 1000 * 60 * 60;
-      expect(isMoreThan24HoursAgo(expired)).to.equal(true);
+      let justOver24 = new Date().getTime() - 25 * 1000 * 60 * 60;
+      expect(isMoreThan24HoursAgo(justOver24)).to.equal(true);
     });
+  });
+  describe("arrayToObject", () => {
+    it("should be tested...", () => {});
   });
 });
