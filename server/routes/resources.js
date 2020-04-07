@@ -1,15 +1,25 @@
 import express from "express";
-import axios from "axios";
-import { writeFile } from "fs";
+import { saveJsonAsFile, isMoreThan24HoursAgo, getGoogleSheet } from "./utils";
+import { CACHE } from "../constants";
 
 const router = express.Router();
 
-/* GET resources listing. */
-const URL = `https://sheets.googleapis.com/v4/spreadsheets/${process.env.GOOGLE_SPREADSHEET_ID}/values/Clinical!1:198?key=${process.env.GOOGLE_SHEET_API_KEY}`;
+/* GET resources */
+
+const hasValidTimestamp =
+  !CACHE.timestamp || isMoreThan24HoursAgo(CACHE.timestamp);
 
 router.get("/", async function (req, res, next) {
-  const resp = await axios.get(URL);
-  res.json({ resources: resp.data.values });
+  let json;
+  if (hasValidTimestamp) {
+    console.log("------- USING CACHE -------");
+    json = CACHE;
+  } else {
+    json = await getGoogleSheet();
+    const successMessage = "GSheet Data Refreshed!";
+    saveJsonAsFile({ json, successMessage });
+  }
+  res.json({ response: json });
 });
 
 export default router;

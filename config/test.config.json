@@ -1,10 +1,7 @@
 {
   "bail": 1,
   "verbose": true,
-  "testMatch": ["./**/*.spec.js","./**/*.spec.jsx", "./server/**/*.spec.js"],
+  "testMatch": ["./**/*.spec.js", "./**/*.spec.jsx", "./server/**/*.spec.js"],
   "rootDir": "../",
-  "transformIgnorePatterns": [
-			"node_modules"
-		]
-
-  }
+  "transformIgnorePatterns": ["node_modules"]
+}
