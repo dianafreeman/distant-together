@@ -9,7 +9,9 @@
     "start": "babel-node --config-file ./config/server.babel.json ./server/app.js",
     "build": "react-scripts build",
     "test:client": "react-scripts test",
-    "test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --watch --config-file ./config/server.babel.json"
+    "dev:test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --watch --config-file ./config/server.babel.json",
+    "test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --config-file ./config/server.babel.json",
+    "test": "yarn test:server && yarn test:client"
   },
   "dependencies": {
     "@babel/cli": "^7.8.4",
@@ -37,7 +39,7 @@
     "react-bootstrap": "^1.0.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^3.4.1",
     "react-spring": "^8.0.27",
     "styled-components": "^5.0.1"
   },
