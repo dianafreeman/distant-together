@@ -3,9 +3,9 @@ import sinon from "sinon";
 import sinonChai from "sinon-chai";
 import {
   SHEET_URL,
-  saveJsonAsFile,
   CACHE_PATTERN,
   cachedExists,
+  isMoreThan24HoursAgo,
 } from "./resources.utils";
 
 chai.use(sinonChai);
@@ -34,12 +34,20 @@ describe("Resource Utilities", () => {
       expect(cachedExists("dbfuaoeshr")).to.equal(false);
     });
   });
-  describe("saveJsonAsFile", () => {
-    let json = {
-      data: [],
-    };
-    saveJsonAsFile({ json });
-    // expect(MOCKS.fs.writeFile).to.have.been.called;
-    // sinon.assert.called(MOCKS.fs.writeFile);
+  describe("isExpired", () => {
+    it("should be false if timestamp is current", () => {
+      let current = new Date().getTime();
+      expect(isMoreThan24HoursAgo(current)).to.equal(false);
+    });
+
+    it("should be false if 23 hours ago", () => {
+      let notQuite24 = new Date().getTime() - 23 * 1000 * 60 * 60;
+      expect(isMoreThan24HoursAgo(notQuite24)).to.equal(false);
+    });
+
+    it("should be true if 25 hours ago", () => {
+      let expired = new Date().getTime() - 25 * 1000 * 60 * 60;
+      expect(isMoreThan24HoursAgo(expired)).to.equal(true);
+    });
   });
 });

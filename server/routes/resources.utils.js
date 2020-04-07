@@ -19,26 +19,29 @@ export const cachedExists = (pathToCheck = CACHE_PATTERN) => {
 export const saveJsonAsFile = async ({
   json,
   targetPath = "server/data",
-  onSuccess,
+  onSuccess = () => console.log("JSON data from GSheet has been refreshed!"),
 }) => {
   if (!json) throw new Error("cannot write Empty JSON");
-  fs.writeFile(path.resolve(`${targetPath}/cached.json`), json, (err) => {
-    if (err) throw err;
-    onSuccess && onSuccess();
-    console.log("JSON data from GSheet has been refreshed!");
-  });
+  fs.writeFile(
+    path.resolve(`${targetPath}/cached.json`),
+    JSON.stringify(json),
+    (err) => {
+      if (err) throw err;
+      onSuccess();
+    }
+  );
 };
 
 export const getCache = async ({ path = CACHE_PATTERN }) => {
   try {
-    let file = await fs.readFileSync(path);
+    let file = require(path); // assumes JSON
     return file;
   } catch (err) {
     console.error(err);
   }
 };
 
-export const jsonIsExpired = (json) => json.timetamp > ONE_DAY_AGO;
+export const isMoreThan24HoursAgo = (timestamp) => timestamp < ONE_DAY_AGO;
 
 const SHEET_RANGE = `Clinical!1:198`;
 
