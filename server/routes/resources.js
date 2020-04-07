@@ -1,5 +1,4 @@
 import express from "express";
-import { writeFile } from "fs";
 import { saveJsonAsFile, isMoreThan24HoursAgo, getGoogleSheet } from "./utils";
 import { CACHE } from "../constants";
 
