@@ -1,18 +1,13 @@
 import express from "express";
-
+import { createUniqueSet } from "./utils";
 const router = express.Router();
 
 /* GET tags listing. */
 
 router.get("/", async function (req, res, next) {
   const json = require("../data/cached");
-  let allTags = json.resources
-    .filter((r) => r.Tags && r.Tags.length > 0)
-    .map((r) => (r.Tags.includes(",") ? r.Tags.split(",")[0] : r.Tags));
-
-  let set = [...new Set(allTags)];
-
-  res.json({ response: set });
+  let tagSet = createUniqueSet(json.resources, "Tags");
+  res.json({ response: { tags: tagSet } });
 });
 
 export default router;

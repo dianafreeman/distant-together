@@ -2,25 +2,9 @@ import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
 import axios from "axios";
+import { SHEET_URL, ONE_DAY_AGO } from "../constants";
 
 dotenv.config();
-
-const TODAY = new Date().getTime();
-const ONE_DAY_AGO = TODAY - 24 * 1000 * 60 * 60;
-const SHEET_RANGE = `Clinical!1:198`;
-
-export const SHEET_URL = `https://sheets.googleapis.com/v4/spreadsheets/${process.env.GOOGLE_SPREADSHEET_ID}/values/${SHEET_RANGE}?key=${process.env.GOOGLE_SHEET_API_KEY}`;
-
-export const CACHE_PATTERN = path.resolve(__dirname, "../data/cached.json");
-
-export const cachedExists = (pathToCheck = CACHE_PATTERN) => {
-  try {
-    let file = require(pathToCheck); // assumes JSON
-    return file ? true : false;
-  } catch (err) {
-    return false;
-  }
-};
 
 export const saveJsonAsFile = async ({
   json,
@@ -33,7 +17,7 @@ export const saveJsonAsFile = async ({
     JSON.stringify(json),
     (err) => {
       if (err) throw err;
-      onSuccess();
+      onSuccess && onSuccess();
     }
   );
 };
@@ -66,6 +50,13 @@ export const getGoogleSheet = async () => {
     timestamp: new Date().getTime(),
     resources: arrayToObject(resp.data.values),
   };
-  // console.log(json);
   return json;
+};
+
+export const createUniqueSet = (data, key) => {
+  let unique = data
+    .filter((d) => d[key] && d[key].length > 0)
+    .map((d) => (d[key].includes(",") ? d[key].split(",")[0] : d[key]));
+
+  return [...new Set(unique)];
 };

@@ -1,4 +1,5 @@
 import express from "express";
+import { createUniqueSet } from "./utils";
 
 const router = express.Router();
 
@@ -6,13 +7,9 @@ const router = express.Router();
 
 router.get("/", async function (req, res, next) {
   const json = require("../data/cached");
-  let allAreas = json.resources
-    .filter((r) => r.Area.length > 0)
-    .map((r) => (r.Area.includes(",") ? r.Area.split(",")[0] : r.Area));
+  let areaSet = createUniqueSet(json.resources, "Area");
 
-  let set = [...new Set(allAreas)];
-
-  res.json({ response: set });
+  res.json({ areas: areaSet });
 });
 
 export default router;

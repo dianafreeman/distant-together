@@ -6,32 +6,12 @@ import {
   CACHE_PATTERN,
   cachedExists,
   isMoreThan24HoursAgo,
-} from "./route.utils";
+} from "../routes/utils";
 
-chai.use(sinonChai);
-
-const MOCKS = {
-  fs: {
-    writeFile: sinon.spy(),
-  },
-};
 describe("Resource Utilities", () => {
-  describe("URL", () => {
-    it('should not contain the word "undefined"', () => {
-      expect(SHEET_URL).not.to.contain("undefined");
-    });
-  });
-  describe("CACHE_PATTERN", () => {
-    it("should exist", () => {
-      expect(CACHE_PATTERN).to.exist;
-    });
-  });
   describe("cachedExists", () => {
-    it("should be true with default path", () => {
+    it("APP REQUIREMENT: should be true", () => {
       expect(cachedExists()).to.equal(true);
-    });
-    it("should fail with an invalid path", () => {
-      expect(cachedExists("dbfuaoeshr")).to.equal(false);
     });
   });
   describe("isMoreThan24HoursAgo", () => {

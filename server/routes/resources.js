@@ -1,10 +1,6 @@
 import express from "express";
 import { writeFile } from "fs";
-import {
-  saveJsonAsFile,
-  isMoreThan24HoursAgo,
-  getGoogleSheet,
-} from "./route.utils";
+import { saveJsonAsFile, isMoreThan24HoursAgo, getGoogleSheet } from "./utils";
 
 const router = express.Router();
 
