@@ -1,19 +1,7 @@
-import chai, { expect, spy } from "chai";
-import sinon from "sinon";
-import sinonChai from "sinon-chai";
-import {
-  SHEET_URL,
-  CACHE_PATTERN,
-  cachedExists,
-  isMoreThan24HoursAgo,
-} from "../routes/utils";
+import { expect } from "chai";
+import { cachedExists, isMoreThan24HoursAgo } from "../routes/utils";
 
 describe("Resource Utilities", () => {
-  describe("cachedExists", () => {
-    it("APP REQUIREMENT: should be true", () => {
-      expect(cachedExists()).to.equal(true);
-    });
-  });
   describe("isMoreThan24HoursAgo", () => {
     it("should be false if timestamp is current", () => {
       let current = new Date().getTime();

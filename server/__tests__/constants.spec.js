@@ -1,3 +1,4 @@
+import { expect } from "chai";
 import { SHEET_URL, CACHE_PATTERN, SHEET_RANGE } from "../constants";
 
 describe("Constants", () => {
