@@ -9,7 +9,7 @@ dotenv.config();
 export const saveJsonAsFile = async ({
   json,
   targetPath = "server/data",
-  onSuccess,
+  successMessage,
 }) => {
   if (!json) throw new Error("cannot write Empty JSON");
   fs.writeFile(
@@ -17,7 +17,7 @@ export const saveJsonAsFile = async ({
     JSON.stringify(json),
     (err) => {
       if (err) throw err;
-      onSuccess && onSuccess();
+      console.log(successMessage || "Success!");
     }
   );
 };

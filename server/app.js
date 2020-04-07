@@ -22,7 +22,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.resolve("../client/public/index.html")));
 
-// app.use("/", indexRouter);
+app.use("/", (req, res, next) => {
+  const authorized = req.header("X-API-KEY") === process.env.APP_MASTER_KEY;
+
+  if (!authorized) {
+    res.status(401);
+    res.json({ error: "Unauthorized" });
+  }
+  next();
+});
 app.use("/api/resources", resourcesRouter);
 app.use("/api/areas", areasRouter);
 app.use("/api/tags", tagsRouter);
@@ -31,10 +39,6 @@ app.get("/", (req, res) => {
 });
 
 const server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
 
 server.listen(port, () => {
   console.log(`Listening on port ${server.address().port}`);

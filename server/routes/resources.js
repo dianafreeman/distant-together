@@ -1,21 +1,24 @@
 import express from "express";
 import { writeFile } from "fs";
 import { saveJsonAsFile, isMoreThan24HoursAgo, getGoogleSheet } from "./utils";
+import { CACHE } from "../constants";
 
 const router = express.Router();
 
 /* GET resources */
 
+const hasValidTimestamp =
+  !CACHE.timestamp || isMoreThan24HoursAgo(CACHE.timestamp);
+
 router.get("/", async function (req, res, next) {
-  const cache = require("../data/cached");
   let json;
-  if (!cache.timestamp || isMoreThan24HoursAgo(cache.timestamp)) {
-    json = await getGoogleSheet();
-    let onSuccess = () => console.log("GSheet Data Refreshed!");
-    saveJsonAsFile({ json, onSuccess });
-  } else {
+  if (hasValidTimestamp) {
     console.log("------- USING CACHE -------");
-    json = cache;
+    json = CACHE;
+  } else {
+    json = await getGoogleSheet();
+    const successMessage = "GSheet Data Refreshed!";
+    saveJsonAsFile({ json, successMessage });
   }
   res.json({ response: json });
 });
