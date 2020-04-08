@@ -5,13 +5,9 @@ import { CACHE } from "../constants";
 const router = express.Router();
 
 /* GET resources */
-
-const hasValidTimestamp =
-  !CACHE.timestamp || isMoreThan24HoursAgo(CACHE.timestamp);
-
 router.get("/", async function (req, res, next) {
   let json;
-  if (hasValidTimestamp) {
+  if (!isMoreThan24HoursAgo(CACHE.timestamp)) {
     console.log("------- USING CACHE -------");
     json = CACHE;
   } else {

@@ -2,6 +2,7 @@ import { observable, computed, decorate, action } from "mobx";
 import Axios from "axios";
 import RESOURCES from "../../lib/resources.json";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 class Store {
@@ -10,24 +11,14 @@ class Store {
 
   isLoading = false;
   resources = [];
-  sortBy = [];
-  // filterTerms = []
+  tags = [];
+  areas = [];
+
+  filterTerms = [];
   searchTerm = "";
   useSearchTerm = this.searchTerm.length > 0;
   // Computed
   // ---------------------------------------------------------------------------
-
-  get areas() {
-    //   let all = this.resources
-    //   .map(r => r.Area && r.area.split(","))
-    //   .map(a => a[0])
-    //   .filter(a => a.length > 0);
-    // let set = [...new Set(all)];
-    // return set;
-    return this.resources;
-  }
-
-  get tags() {}
 
   get filtered() {
     // const pattern = new RegExp(this.searchTerm, "i");
@@ -49,52 +40,23 @@ class Store {
       return false;
     }
   }
-  // filterTitle(r) {
-  //   const pattern = new RegExp(this.searchTerm, "i");
-  //   return r.Title && r.Title.match(pattern);
-  // }
 
-  // filterSource(r) {
-  //   const pattern = new RegExp(this.searchTerm, "i");
-  //   return (
-  //     r["Source (Organization)"] && r["Source (Organization)"].match(pattern)
-  //   );
-  // }
-
-  // filterTags(r) {
-  //   const tags = r.Tags.includes(this.searchTerm);
-  //   return r.Tags.includes(this.searchTerm);
-  // }
-
-  useAllFilters(r) {
-    // Term only for now, case insensitivce
-
-    const pattern = new RegExp(this.searchTerm, "i");
-    const titleMatch = (r) => r.Title && r.Title.match(pattern);
-    const sourceMatch = (r) =>
-      r["Source (Organization)"] && r["Source (Organization)"].match(pattern);
-    // const tagMatch = r.Title && r.Title.match(pattern);
-
-    return this;
-
-    // return
-  }
   // Actions
   // ---------------------------------------------------------------------------
   async getResources() {
     this.setLoading(true);
     let resp = await Axios.get("/api/resources", {
-      headers: { "X-API-KEY": process.env.APP_MASTER_KEY },
+      headers: { "X-API-KEY": process.env.REACT_APP_MASTER_KEY },
     });
-    this.resources = resp.data.resources;
+    this.resources = resp.data.response.resources;
     return this.setLoading(false);
   }
   async getAreas() {
     this.setLoading(true);
-    let resp = await Axios.get("/api/resources", {
+    let resp = await Axios.get("/api/areas", {
       headers: { "X-API-KEY": process.env.APP_MASTER_KEY },
     });
-    this.resources = resp.data.resources;
+    this.resources = resp.data.response.areas;
     return this.setLoading(false);
   }
 
@@ -118,12 +80,14 @@ class Store {
 decorate(Store, {
   isLoading: observable,
   resources: observable,
+  tags: observable,
+  areas: observable,
+
   searchTerm: observable,
   useSearchTerm: observable,
-  areas: computed,
-  filtered: computed,
-  tags: computed,
+
   getResources: action,
+  getAreas: action,
   useAllFilters: action,
   onSearchTermChange: action,
 });
