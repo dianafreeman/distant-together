@@ -79,7 +79,13 @@ class Store {
   }
   // Actions
   // ---------------------------------------------------------------------------
-  async fetchResources() {
+  async getResources() {
+    this.setLoading(true);
+    let resp = await Axios.get("/api/resources");
+    this.resources = resp.data.resources;
+    return this.setLoading(false);
+  }
+  async getAreas() {
     this.setLoading(true);
     let resp = await Axios.get("/api/resources");
     this.resources = resp.data.resources;

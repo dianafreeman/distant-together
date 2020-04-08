@@ -10,13 +10,14 @@ import ListItem from "../components/ListItem";
 import NothingFound from "../components/NothingFound";
 
 const LoadingIndicator = styled.h1`
-color: red`
+  color: red;
+`;
 
 const FixedColumn = styled.div`
   height: auto;
   z-index: 1;
   display: flex;
-  background-color: ${props => props.bg};
+  background-color: ${(props) => props.bg};
   color: ${colors.white};
   @media screen and (min-width: ${screens.md}) {
     height: 100vh;
@@ -42,10 +43,9 @@ const ColumnTitle = styled.h1`
 const DataColumn = styled.div`
   right: 0;
   background-color: ${colors["grey-lightest"]};
-  @media screen  and (min-width: ${screens.md}){
-    top: ${props => props.offsetTop}px;
+  @media screen and (min-width: ${screens.md}) {
+    top: ${(props) => props.offsetTop}px;
     position: absolute;
-
   }
 `;
 
@@ -54,7 +54,7 @@ const Home = ({ store }) => {
   const formEl = useRef(null);
 
   useEffect(() => {
-    // store.fetchResources()
+    // store.getResources()
     formEl.current && setHeaderHeight(formEl.current.firstChild.clientHeight);
   }, []);
   return (
@@ -66,25 +66,27 @@ const Home = ({ store }) => {
               src={`${process.env.PUBLIC_URL}/images/headerText.png`}
               width="100%"
               aria-hidden="true"
+              alt={sitemeta.title}
             />
 
-            <ColumnTitle className="my-auto">{sitemeta.title}</ColumnTitle>
+            <ColumnTitle className="my-auto">{sitemeta.subtitle}</ColumnTitle>
           </FixedContent>
         </FixedColumn>
         <FixedColumn className="col-md-6 col-lg-4">
-        <div ref={formEl} style={{width: '100%'}}>
-          <Form
-            onTermChange={e => store.setSearchTerm(e.target.value)}
-            radioOptions={store.areas}
-          />
-        </div>
+          <div ref={formEl} style={{ width: "100%" }}>
+            <Form
+              onTermChange={(e) => store.setSearchTerm(e.target.value)}
+              radioOptions={store.areas}
+            />
+          </div>
         </FixedColumn>
       </div>
 
       <DataColumn offsetTop={headerHeight} className="col-md-6 col-lg-8">
-        {store.isLoading ? <LoadingIndicator >LOADING</LoadingIndicator>
-        : store.filtered.length > 0 ? (
-          store.filtered.map(r => <ListItem item={r} />)
+        {store.isLoading ? (
+          <LoadingIndicator>LOADING</LoadingIndicator>
+        ) : store.filtered.length > 0 ? (
+          store.filtered.map((r) => <ListItem item={r} />)
         ) : (
           <NothingFound />
         )}
