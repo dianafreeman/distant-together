@@ -54,7 +54,7 @@ const Home = ({ store }) => {
   const formEl = useRef(null);
 
   useEffect(() => {
-    // store.getResources()
+    store.getResources();
     formEl.current && setHeaderHeight(formEl.current.firstChild.clientHeight);
   }, []);
   return (

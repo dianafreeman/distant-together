@@ -1,13 +1,15 @@
 import { observable, computed, decorate, action } from "mobx";
 import Axios from "axios";
 import RESOURCES from "../../lib/resources.json";
+import dotenv from "dotenv";
+dotenv.config();
 
 class Store {
   // Observables
   // ---------------------------------------------------------------------------
 
   isLoading = false;
-  resources = RESOURCES || [];
+  resources = [];
   sortBy = [];
   // filterTerms = []
   searchTerm = "";
@@ -81,13 +83,17 @@ class Store {
   // ---------------------------------------------------------------------------
   async getResources() {
     this.setLoading(true);
-    let resp = await Axios.get("/api/resources");
+    let resp = await Axios.get("/api/resources", {
+      headers: { "X-API-KEY": process.env.APP_MASTER_KEY },
+    });
     this.resources = resp.data.resources;
     return this.setLoading(false);
   }
   async getAreas() {
     this.setLoading(true);
-    let resp = await Axios.get("/api/resources");
+    let resp = await Axios.get("/api/resources", {
+      headers: { "X-API-KEY": process.env.APP_MASTER_KEY },
+    });
     this.resources = resp.data.resources;
     return this.setLoading(false);
   }
