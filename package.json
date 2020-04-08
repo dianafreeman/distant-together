@@ -1,77 +1,77 @@
 {
-  "name": "psychologists-against-covid",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev:client": "PORT=3000 react-scripts start",
-    "dev:server": "PORT=3001 nodemon --exec babel-node ./server/app.js --config-file ./config/server.babel.json ",
-    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
-    "start": "babel-node --config-file ./config/server.babel.json ./server/app.js",
-    "build": "react-scripts build",
-    "test:client": "react-scripts test",
-    "dev:test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --watch --config-file ./config/server.babel.json",
-    "test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --config-file ./config/server.babel.json",
-    "test": "yarn test:server && yarn test:client"
-  },
-  "dependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/node": "^7.8.7",
-    "@babel/polyfill": "^7.8.7",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/preset-react": "^7.9.4",
-    "axios": "^0.19.2",
-    "bootstrap": "^4.4.1",
-    "chai-http": "^4.3.0",
-    "cookie-parser": "^1.4.5",
-    "dotenv": "^8.2.0",
-    "eslint-config-prettier": "^6.10.1",
-    "express": "^4.17.1",
-    "googleapis": "39",
-    "mobx": "^5.15.4",
-    "mobx-react": "^6.1.8",
-    "morgan": "^1.10.0",
-    "mz": "^2.7.0",
-    "node-sass": "^4.13.1",
-    "nodemon": "^2.0.2",
-    "prettier": "^2.0.2",
-    "react": "^16.13.1",
-    "react-bootstrap": "^1.0.0",
-    "react-dom": "^16.13.1",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.1",
-    "react-spring": "^8.0.27",
-    "styled-components": "^5.0.1"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "proxy": "http://localhost:3001",
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@babel/register": "^7.9.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "chai": "^4.2.0",
-    "concurrently": "^5.1.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.19.0",
-    "mocha": "^7.1.1",
-    "mock-require": "^3.0.3",
-    "sinon": "^9.0.1",
-    "sinon-chai": "^3.5.0"
-  }
+    "name": "psychologists-against-covid",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "build": "react-scripts build",
+        "dev:client": "PORT=3000 react-scripts start",
+        "dev:server": "PORT=3001 nodemon --watch server --exec babel-node ./server/app.js --config-file ./config/server.babel.json ",
+        "dev:test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --watch --config-file ./config/server.babel.json",
+        "dev": "concurrently \"yarn start\" \"yarn dev:client\"",
+        "start": "babel-node ./server/app.js --config-file ./config/server.babel.json",
+        "test:client": "react-scripts test",
+        "test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --config-file ./config/server.babel.json",
+        "test": "yarn test:server && yarn test:client"
+    },
+    "dependencies": {
+        "@babel/cli": "^7.8.4",
+        "@babel/core": "^7.9.0",
+        "@babel/node": "^7.8.7",
+        "@babel/polyfill": "^7.8.7",
+        "@babel/preset-env": "^7.9.0",
+        "@babel/preset-react": "^7.9.4",
+        "axios": "^0.19.2",
+        "bootstrap": "^4.4.1",
+        "chai-http": "^4.3.0",
+        "cookie-parser": "^1.4.5",
+        "dotenv": "^8.2.0",
+        "eslint-config-prettier": "^6.10.1",
+        "express": "^4.17.1",
+        "googleapis": "39",
+        "mobx": "^5.15.4",
+        "mobx-react": "^6.1.8",
+        "morgan": "^1.10.0",
+        "mz": "^2.7.0",
+        "node-sass": "^4.13.1",
+        "nodemon": "^2.0.2",
+        "prettier": "^2.0.2",
+        "react": "^16.13.1",
+        "react-bootstrap": "^1.0.0",
+        "react-dom": "^16.13.1",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "^3.4.1",
+        "react-spring": "^8.0.27",
+        "styled-components": "^5.0.1"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "proxy": "http://localhost:3001",
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@babel/register": "^7.9.0",
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.3.2",
+        "@testing-library/user-event": "^7.1.2",
+        "chai": "^4.2.0",
+        "concurrently": "^5.1.0",
+        "eslint": "^6.8.0",
+        "eslint-plugin-prettier": "^3.1.2",
+        "eslint-plugin-react": "^7.19.0",
+        "mocha": "^7.1.1",
+        "mock-require": "^3.0.3",
+        "sinon": "^9.0.1",
+        "sinon-chai": "^3.5.0"
+    }
 }
