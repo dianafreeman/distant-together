@@ -7,6 +7,7 @@ import colors from '../../lib/theme/colors'
 import screens from '../../lib/theme/screens'
 import ItemLabel from './ItemLabel'
 import ResultsBar from './ResultsBar'
+import { getUniqueSet } from '../utils'
 
 const StaticWrapper = styled.div`
 position: relative;
@@ -57,16 +58,11 @@ const FormEl = styled(BsForm)`
     margin: 0;
 `
 
-const Form = ({
-    store,
-    onSearchTermChange,
-    selectedOptions,
-    onOptionToggle,
-}) => {
+const Form = ({ store, onSearchTermChange, listLength, onOptionToggle }) => {
     return (
         <StaticWrapper>
             <FormWrapper>
-                <FormEl>
+                <FormEl onSubmit={(e) => e.preventDefault()}>
                     <FormContent>
                         <FormGroup>
                             <ItemLabel>Search By Term</ItemLabel>
@@ -75,42 +71,39 @@ const Form = ({
                                 name="resource-search-term"
                                 placeholder={`What are you looking for?`}
                                 onChange={(e) =>
-                                    onSearchTermChange(e.target.value)
+                                    store.onSearchTermChange(e.target.value)
                                 }
                             />
                         </FormGroup>
-                        <FormGroup>
-                            <Radio
-                                label="Resources For"
-                                selected={
-                                    store.query.filters['Resources For'][0] ||
-                                    null
-                                }
-                                options={store.resourcesFor}
-                                onOptionClick={(e) =>
-                                    store.toggleFilterTerm(
-                                        e.target.value,
-                                        e.target.name
-                                    )
-                                }
-                            />
-                            <Radio
-                                label="Area"
-                                options={[
-                                    'Behavioral Health Services',
-                                    'Coping',
-                                ]}
-                                onOptionClick={(e) =>
-                                    store.toggleFilterTerm(
-                                        e.target.value,
-                                        e.target.name
-                                    )
-                                }
-                            />
-                        </FormGroup>
+                        {store.filterOptions.map((f) => {
+                            // console.log('store.query[f]')
+                            // console.log(store.query[f])
+                            return (
+                                <FormGroup>
+                                    <Radio
+                                        key={`radio-${f
+                                            .replace(' ', '-')
+                                            .toLowerCase()}`}
+                                        label={f}
+                                        selected={store.query[f]}
+                                        options={getUniqueSet(
+                                            store.resources,
+                                            f
+                                        )}
+                                        onOptionClick={store.onTermOptionChange}
+                                        onClearSelectedClick={(e) => {
+                                            e.preventDefault()
+                                            store.clearFiltersFor(
+                                                e.currentTarget.name
+                                            )
+                                        }}
+                                    />
+                                </FormGroup>
+                            )
+                        })}
                     </FormContent>
                     <FormFooter>
-                        <ResultsBar listLength={store.results.length} />
+                        <ResultsBar listLength={listLength} />
                     </FormFooter>
                 </FormEl>
             </FormWrapper>

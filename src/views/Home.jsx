@@ -8,6 +8,11 @@ import screens from '../lib/theme/screens'
 import Form from '../components/Form'
 import ListItem from '../components/ListItem'
 import NothingFound from '../components/NothingFound'
+// import {
+//     matchesSearchTerm,
+//     matchesAudienceFilter,
+//     filterByAll,
+// } from '../components/utils'
 
 const LoadingIndicator = styled.h1`
     color: red;
@@ -49,15 +54,19 @@ const DataColumn = styled.div`
     }
 `
 
-const Home = ({ store }) => {
+function Home({ store, isLoading }) {
     const [headerHeight, setHeaderHeight] = useState(0)
     const formEl = useRef(null)
 
     useEffect(() => {
-        // store.getResources()
         formEl.current &&
-            setHeaderHeight(formEl.current.firstChild.clientHeight)
+            setHeaderHeight(formEl.current.firstChild.clientHeight + 50)
     }, [])
+
+    // const store.filtered = store.filtered.filter((result) =>
+    //     filterByAll(store, result)
+    // )
+
     return (
         <div className="container-fluid">
             <div className="row">
@@ -80,16 +89,7 @@ const Home = ({ store }) => {
                 </FixedColumn>
                 <FixedColumn className="col-md-6 col-lg-4">
                     <div ref={formEl} style={{ width: '100%' }}>
-                        <Form
-                            onSearchTermChange={(value) =>
-                                store.onSearchTermChange(value)
-                            }
-                            onOptionClick={(value, name) =>
-                                store.toggleFilterTerm(value, name)
-                            }
-                            radioOptions={store.areas}
-                            onTerm
-                        />
+                        <Form listLength={store.filtered.length} />
                     </div>
                 </FixedColumn>
             </div>
@@ -97,8 +97,16 @@ const Home = ({ store }) => {
             <DataColumn offsetTop={headerHeight} className="col-md-6 col-lg-8">
                 {store.isLoading ? (
                     <LoadingIndicator>LOADING</LoadingIndicator>
-                ) : store.results.length > 0 ? (
-                    store.results.map((r) => <ListItem item={r} />)
+                ) : store.filtered.length > 0 ? (
+                    store.filtered.map((r, idx) => (
+                        <ListItem
+                            key={`list-item-${idx}-${r.Title.replace(
+                                ' ',
+                                '-'
+                            ).toLowerCase()}`}
+                            item={r}
+                        />
+                    ))
                 ) : (
                     <NothingFound />
                 )}

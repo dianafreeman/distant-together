@@ -10,90 +10,56 @@ class Store {
     // ---------------------------------------------------------------------------
 
     isLoading = false
-    resources = RESOURCES.resources || []
+    resources = []
     tags = []
     areas = []
-
+    searchTerm = ''
     query = {
-        searchTerm: '',
-        filters: { 'Resources For': [], Area: [], Tags: [] },
+        'Source (Organization)': '',
+        'Resources For': '',
+        Area: '',
+        Title: '',
+        Link: '',
+        Tags: '',
+        'Release Date': '',
     }
-    filterTerms = []
-    useSearchTerm = this.query.searchTerm.length > 0
+    // below used in View!
+    filterOptions = ['Resources For', 'Area']
+    stringSearchOptions = ['Source (Organization)', 'Title']
     // Computed
     // ---------------------------------------------------------------------------
-    filtersAreEmpty() {
-        return (
-            this.query.searchTerm.length === 0 &&
-            (!Object.values(this.query.filters)[0] ||
-                Object.values(this.query.filters)[0].map(
-                    (v) => v[0] && v[0].length > 0
-                ).length === 0)
-        )
-    }
-    get results() {
-        if (!this.useSearchTerm && this.filtersAreEmpty()) {
-            return this.resources
-        } else {
-            return this.resources.filter((r) => this.filterByAll(r))
-        }
-    }
-    get resourcesFor() {
-        let set = this.createUniqueSet(this.resources, 'Resources For')
-        // console.log(set)
-        return set
-    }
-    createUniqueSet = (data, key) => {
-        let unique = data
-            .filter((d) => d[key] && d[key].length > 0)
-            .map((d) => (d[key].includes(',') ? d[key].split(',')[0] : d[key]))
 
-        return [...new Set(unique)]
-    }
-
-    matchesAudienceFilter = (r) => {
-        console.log(`checking ${r['Resources For']}`)
-
-        // console.log(this.query.filters['Resources For'])
-        return r['Resources For'].length > 0
-            ? this.query.filters['Resources For'].indexOf(r['Resources For']) >
-                  -1
-            : true
-    }
-    matchesSearchTerm = (r) => {
-        const pattern = new RegExp(this.query.searchTerm, 'i')
-        return this.query.searchTerm
-            ? (r.Title && r.Title.match(pattern)) || // if title exists and matches
-                  (r['Source (Organization)'] && // if source exists and matches
-                      r['Source (Organization)'].match(pattern)) ||
-                  (r.Tags && r.Tags.includes(this.query.searchTerm))
-            : r
-    }
-
-    matchesAudience(r) {
-        // console.log(this.query.filters['Resources For'].length)
-        return this.query.filters['Resources For'].length > 1
-            ? this.query.filters['Resources For'] === r['Resources For']
-            : true
-        // return r.Area === this.query.filters['Resources For']
-    }
-    filterByAll(r) {
-        if (this.matchesSearchTerm(r)) {
+    get filtered() {
+        return this.resources.filter((resource) => {
+            for (let key in this.query) {
+                // console.log(this.query[key])
+                if (
+                    this.query[key] !== undefined &&
+                    this.query[key].length > 0
+                ) {
+                    return this.filterWithRegex(resource, key)
+                }
+            }
             return true
-        } else if (this.matchesAudienceFilter(r)) {
-            return true
-        }
+        })
+    }
+
+    filterWithRegex(resource, key) {
+        // console.log(this.query[key])
+        const pattern = new RegExp(this.query[key], 'i')
+        return resource[key].match(pattern)
     }
 
     // Actions
     // ---------------------------------------------------------------------------
+
     async getResources() {
         this.setLoading(true)
         let resp = await Axios.get('/api/resources', {
             headers: { 'X-API-KEY': process.env.REACT_APP_MASTER_KEY },
         })
         this.resources = resp.data.response.resources
-        console.log(this.resources)
+        // console.log(this.resources)
         return this.setLoading(false)
     }
     async getAreas() {
@@ -106,13 +72,24 @@ class Store {
     }
 
     onSearchTermChange(term) {
-        this.useSearchTerm = term.length > 0
-        return (this.query.searchTerm = term)
+        return (this.query = {
+            ...this.query,
+            'Source (Organization)': term,
+            Title: term,
+            Tags: term,
+        })
     }
 
-    toggleFilterTerm(term, key) {
-        return (this.query.filters[key] =
-            this.query.filters[key][0] !== term ? [term] : [])
+    clearFiltersFor = (name) => {
+        console.log(`clearing filters for ${name}`)
+        return (this.query[name] = '')
+    }
+
+    onTermOptionChange = (e) => {
+        return (this.query = {
+            ...this.query,
+            [e.target.name]: e.target.value,
+        })
     }
 
     toggleSortBy(value) {
@@ -133,10 +110,11 @@ decorate(Store, {
     tags: observable,
     areas: observable,
     query: observable,
-    useSearchTerm: observable,
 
-    resourcesFor: computed,
+    filtered: computed,
 
+    // filterWithRegex: action,
+    // filterWithSingleTerm: action,
     getResources: action,
     getAreas: action,
     useAllFilters: action,
