@@ -8,11 +8,7 @@ import screens from '../lib/theme/screens'
 import Form from '../components/Form'
 import ListItem from '../components/ListItem'
 import NothingFound from '../components/NothingFound'
-// import {
-//     matchesSearchTerm,
-//     matchesAudienceFilter,
-//     filterByAll,
-// } from '../components/utils'
+import headerText from '../assets/headerText.png'
 
 const LoadingIndicator = styled.h1`
     color: red;
@@ -76,7 +72,7 @@ function Home({ store, isLoading }) {
                 >
                     <FixedContent>
                         <img
-                            src={`${process.env.PUBLIC_URL}/images/headerText.png`}
+                            src={headerText}
                             width="100%"
                             aria-hidden="true"
                             alt={sitemeta.title}
