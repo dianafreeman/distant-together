@@ -15,7 +15,7 @@ const App = ({ store }) => {
         <Router>
             <Switch>
                 <Route exact path="/">
-                    <Home store={store} results={results} />
+                    <Home store={store} />
                 </Route>
             </Switch>
         </Router>
