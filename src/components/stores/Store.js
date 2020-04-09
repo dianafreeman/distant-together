@@ -33,7 +33,7 @@ class Store {
         return this.resources.filter((resource) => {
             for (let key in this.query) {
                 // console.log(this.query[key])
-                if (this.query[key].length > 0) {
+                if (this.query[key] && this.query[key].length > 0) {
                     return this.filterWithRegex(resource, key)
                 }
             }

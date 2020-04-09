@@ -10,9 +10,13 @@ import ListItem from '../components/ListItem'
 import NothingFound from '../components/NothingFound'
 import headerText from '../assets/headerText.png'
 
-const LoadingIndicator = styled.h1`
-    color: red;
-`
+const LoadingIndicator = () => {
+    return (
+        <div className="fa-3x">
+            <i className="fas fa-spinner fa-spin"></i>
+        </div>
+    )
+}
 
 const FixedColumn = styled.div`
     height: auto;

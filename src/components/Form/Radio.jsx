@@ -23,11 +23,12 @@ const Option = styled(Button)`
     }
 `
 const ClearSelectedBtn = styled.button`
-    margin: auto;
+    margin: none;
+    margin-left: 1ch;
+    padding: 0;
     background: none;
     border: none;
     color: ${colors.grey};
-    margin: 0.5em;
     &:hover,
     &:active,
     &:focus {
@@ -41,7 +42,13 @@ const ClearSelectedToggle = ({ name, onClick }) => {
         </ClearSelectedBtn>
     )
 }
-const RadioOption = ({ value, name, selected, onOptionClick }) => {
+const RadioOption = ({
+    value,
+    name,
+    selected,
+    onOptionClick,
+    onClearSelectedClick,
+}) => {
     return (
         <Option
             onClick={onOptionClick}
@@ -51,6 +58,12 @@ const RadioOption = ({ value, name, selected, onOptionClick }) => {
             isActive={value === selected}
         >
             {value}
+            {value === selected && (
+                <ClearSelectedToggle
+                    name={name}
+                    onClick={onClearSelectedClick}
+                />
+            )}
         </Option>
     )
 }
@@ -74,15 +87,10 @@ const Radio = ({
                         name={label}
                         selected={selected}
                         onOptionClick={onOptionClick}
+                        onClearSelectedClick={onClearSelectedClick}
                     />
                 ))}
             </ButtonGroup>
-            {selected && (
-                <ClearSelectedToggle
-                    name={label}
-                    onClick={onClearSelectedClick}
-                />
-            )}
         </Wrapper>
     )
 }
