@@ -1,125 +1,121 @@
-import { observable, computed, decorate, action } from "mobx";
-import Axios from "axios";
-import RESOURCES from "../../lib/resources.json";
+import { observable, computed, decorate, action, toJS } from 'mobx'
+import Axios from 'axios'
+import RESOURCES from '../__fixtures__/resources'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 class Store {
-  // Observables
-  // ---------------------------------------------------------------------------
+    // Observables
+    // ---------------------------------------------------------------------------
 
-  isLoading = false;
-  resources = RESOURCES || [];
-  sortBy = [];
-  // filterTerms = []
-  searchTerm = "";
-  useSearchTerm = this.searchTerm.length > 0;
-  // Computed
-  // ---------------------------------------------------------------------------
-
-  get areas() {
-    //   let all = this.resources
-    //   .map(r => r.Area && r.area.split(","))
-    //   .map(a => a[0])
-    //   .filter(a => a.length > 0);
-    // let set = [...new Set(all)];
-    // return set;
-    return this.resources;
-  }
-
-  get tags() {}
-
-  get filtered() {
-    // const pattern = new RegExp(this.searchTerm, "i");
-    const filtered = this.resources.filter((r) => this.filterByAll(r));
-    return filtered;
-  }
-
-  filterByAll(r) {
-    const pattern = new RegExp(this.searchTerm, "i");
-
-    if (
-      (r.Title && r.Title.match(pattern)) || // if title exists and matches
-      (r["Source (Organization)"] && // if source exists and matches
-        r["Source (Organization)"].match(pattern)) ||
-      (r.Tags && r.Tags.includes(this.searchTerm)) // if tag exists
-    ) {
-      return true;
-    } else {
-      return false;
+    isLoading = false
+    resources = []
+    tags = []
+    areas = []
+    searchTerm = ''
+    query = {
+        'Source (Organization)': '',
+        'Resources For': '',
+        Area: '',
+        Title: '',
+        Link: '',
+        Tags: '',
+        'Release Date': '',
     }
-  }
-  // filterTitle(r) {
-  //   const pattern = new RegExp(this.searchTerm, "i");
-  //   return r.Title && r.Title.match(pattern);
-  // }
+    // below used in View!
+    filterOptions = ['Resources For', 'Area']
+    stringSearchOptions = ['Source (Organization)', 'Title']
+    // Computed
+    // ---------------------------------------------------------------------------
 
-  // filterSource(r) {
-  //   const pattern = new RegExp(this.searchTerm, "i");
-  //   return (
-  //     r["Source (Organization)"] && r["Source (Organization)"].match(pattern)
-  //   );
-  // }
+    get filtered() {
+        return this.resources.filter((resource) => {
+            for (let key in this.query) {
+                // console.log(this.query[key])
+                if (this.query[key].length > 0) {
+                    return this.filterWithRegex(resource, key)
+                }
+            }
+            return true
+        })
+    }
 
-  // filterTags(r) {
-  //   const tags = r.Tags.includes(this.searchTerm);
-  //   return r.Tags.includes(this.searchTerm);
-  // }
+    filterWithRegex(resource, key) {
+        // console.log(this.query[key])
+        const pattern = new RegExp(this.query[key], 'i')
+        return resource[key].match(pattern)
+    }
 
-  useAllFilters(r) {
-    // Term only for now, case insensitivce
+    // Actions
+    // ---------------------------------------------------------------------------
 
-    const pattern = new RegExp(this.searchTerm, "i");
-    const titleMatch = (r) => r.Title && r.Title.match(pattern);
-    const sourceMatch = (r) =>
-      r["Source (Organization)"] && r["Source (Organization)"].match(pattern);
-    // const tagMatch = r.Title && r.Title.match(pattern);
+    async getResources() {
+        this.setLoading(true)
+        let resp = await Axios.get('/api/resources', {
+            headers: { 'X-API-KEY': process.env.REACT_APP_MASTER_KEY },
+        })
+        this.resources = resp.data.response.resources
+        // console.log(this.resources)
+        return this.setLoading(false)
+    }
+    async getAreas() {
+        this.setLoading(true)
+        let resp = await Axios.get('/api/areas', {
+            headers: { 'X-API-KEY': process.env.APP_MASTER_KEY },
+        })
+        this.resources = resp.data.response.areas
+        return this.setLoading(false)
+    }
 
-    return this;
+    onSearchTermChange(term) {
+        return (this.query = {
+            ...this.query,
+            'Source (Organization)': term,
+            Title: term,
+            Tags: term,
+        })
+    }
 
-    // return
-  }
-  // Actions
-  // ---------------------------------------------------------------------------
-  async getResources() {
-    this.setLoading(true);
-    let resp = await Axios.get("/api/resources");
-    this.resources = resp.data.resources;
-    return this.setLoading(false);
-  }
-  async getAreas() {
-    this.setLoading(true);
-    let resp = await Axios.get("/api/resources");
-    this.resources = resp.data.resources;
-    return this.setLoading(false);
-  }
+    clearFiltersFor = (name) => {
+        console.log(`clearing filters for ${name}`)
+        return (this.query[name] = '')
+    }
 
-  setSearchTerm(term) {
-    this.useSearchTerm = term.length > 0;
-    return (this.searchTerm = term);
-  }
+    onTermOptionChange = (e) => {
+        return (this.query = {
+            ...this.query,
+            [e.target.name]: e.target.value,
+        })
+    }
 
-  toggleSortBy(value) {
-    return (this.sortBy =
-      this.sortBy.indexOf(value) === -1
-        ? this.sortBy.push(value)
-        : this.sortBy.filter((v) => v !== value));
-  }
+    toggleSortBy(value) {
+        return (this.sortBy =
+            this.sortBy.indexOf(value) === -1
+                ? this.sortBy.push(value)
+                : this.sortBy.filter((v) => v !== value))
+    }
 
-  setLoading(bool) {
-    return (this.isLoading = bool);
-  }
+    setLoading(bool) {
+        return (this.isLoading = bool)
+    }
 }
 
 decorate(Store, {
-  isLoading: observable,
-  resources: observable,
-  searchTerm: observable,
-  useSearchTerm: observable,
-  areas: computed,
-  filtered: computed,
-  tags: computed,
-  getResources: action,
-  useAllFilters: action,
-  onSearchTermChange: action,
-});
+    isLoading: observable,
+    resources: observable,
+    tags: observable,
+    areas: observable,
+    query: observable,
 
-export default Store;
+    filtered: computed,
+
+    // filterWithRegex: action,
+    // filterWithSingleTerm: action,
+    getResources: action,
+    getAreas: action,
+    useAllFilters: action,
+    onSearchTermChange: action,
+})
+
+export default Store

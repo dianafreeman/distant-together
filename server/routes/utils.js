@@ -24,7 +24,7 @@ export const saveJsonAsFile = async ({
 
 export const isMoreThan24HoursAgo = (timestamp) => {
   try {
-    return timestamp < ONE_DAY_AGO;
+    return new Date(timestamp) < new Date(ONE_DAY_AGO);
   } catch (err) {
     throw new Error(err.message);
   }

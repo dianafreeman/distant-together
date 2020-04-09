@@ -28,8 +28,9 @@ app.use("/", (req, res, next) => {
   if (!authorized) {
     res.status(401);
     res.json({ error: "Unauthorized" });
+  } else {
+    next();
   }
-  next();
 });
 app.use("/api/resources", resourcesRouter);
 app.use("/api/areas", areasRouter);
