@@ -1,14 +1,12 @@
 import React from 'react'
+import sadDog from '../../assets/sad-dog.png'
 
 const NothingFound = () => {
     return (
         <div className="row">
             <div className="col-sm-10 mx-auto">
                 <h1>Aw man!</h1>
-                <img
-                    src={`${process.env.PUBLIC_URL}/images/sad-dog.png`}
-                    aria-hidden="true"
-                />
+                <img src={sadDog} aria-hidden="true" />
                 <h4>
                     There's nothing in our database that matches this
                     description.
