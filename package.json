@@ -11,7 +11,8 @@
         "start": "babel-node ./server/app.js --config-file ./config/server.babel.json",
         "test:client": "react-scripts test",
         "test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --config-file ./config/server.babel.json",
-        "test": "yarn test:server && yarn test:client"
+        "test": "yarn test:server && yarn test:client",
+        "heroku-postbuild": "yarn start"
     },
     "dependencies": {
         "@babel/cli": "^7.8.4",
