@@ -86,7 +86,7 @@ function Home({ store, isLoading }) {
         <FixedContainer className="container-fluid">
             <FixedRow className="row">
                 <RelativeCol
-                    className="col col-md-6 col-lg-4 "
+                    className="col-md-5 col-lg-4 "
                     style={{ backgroundColor: colors['grey-dark'] }}
                 >
                     <ColTop
@@ -107,8 +107,9 @@ function Home({ store, isLoading }) {
                             {sitemeta.subtitle}
                         </ColumnTitle>
                     </ColTop>
+                    <ColBottom></ColBottom>
                 </RelativeCol>
-                <RelativeCol className="col-md-6 col-lg-8">
+                <RelativeCol className="col-md-7 col-lg-8">
                     <ColTop ref={topColRef}>
                         <Form />
                         <SectionFooter>

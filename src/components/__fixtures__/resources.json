@@ -1,5 +1,5 @@
 {
-    "timestamp": 1586382765386,
+    "timestamp": 1586453522820,
     "resources": [
         {
             "Source (Individual)": "",
@@ -159,7 +159,7 @@
         {
             "Source (Individual)": "",
             "Source (Organization)": "Trails To Wellness",
-            "Resources For": "Coping",
+            "Resources For": "Clinicians",
             "Area": "Coping",
             "Title": "Self-Care for Student Support Professionals during COVID-19",
             "Link": "https://storage.trailstowellness.org/trails-2/covid-19-resources/self-care-during-covid-19.pdf",
@@ -1534,6 +1534,17 @@
             "Release Date": "",
             "Notes": "",
             "Tags": "social emotional learning (SEL) for educators, families, home, children, adolescents, teens"
+        },
+        {
+            "Source (Individual)": "",
+            "Source (Organization)": "temp",
+            "Resources For": "Everyone",
+            "Area": "Resources, tips",
+            "Title": "Resources, Tips, Activities",
+            "Link": "https://www.caretochange.org/covid19/",
+            "Release Date": "4/6/2020",
+            "Notes": "",
+            "Tags": "parents, tips, resources, anxiety, telehealth"
         }
     ]
 }
