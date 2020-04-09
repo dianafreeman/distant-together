@@ -1,7 +1,8 @@
 {
-    "name": "psychologists-against-covid",
+    "name": "distant-together",
     "version": "0.1.0",
     "private": true,
+    "main": "./server/app.js",
     "scripts": {
         "build:client": "react-scripts build",
         "dev:client": "PORT=3000 react-scripts start",

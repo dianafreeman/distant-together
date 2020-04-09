@@ -35,7 +35,7 @@ app.use('/api', (req, res, next) => {
 app.use('/api/resources', resourcesRouter)
 app.use('/api/areas', areasRouter)
 app.use('/api/tags', tagsRouter)
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../build/index.html'))
 })
 const server = http.createServer(app)
