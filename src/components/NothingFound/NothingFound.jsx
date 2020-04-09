@@ -15,7 +15,7 @@ const NothingFound = () => {
                 </h4>
                 <small>
                     IMAGE CREDIT:{' '}
-                    <a href="https://www.vecteezy.com/free-vector/sad-puppy">
+                    <a href="httgtps://www.vecteezy.com/free-vector/sad-puppy">
                         Sad Puppy Vectors by Vecteezy
                     </a>
                 </small>
