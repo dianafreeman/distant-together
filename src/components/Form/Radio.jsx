@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { css } from 'styled-components'
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import { default as BsButtonGroup } from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import styled from 'styled-components'
 import colors from '../../lib/theme/colors'
@@ -19,7 +19,10 @@ const Option = styled(Button)`
     &:hover,
     &:active,
     &:focus {
+        outline: none;
         border: 1px solid ${colors['blue-dark']};
+        background-color: ${colors['blue-dark']};
+        color: ${colors['blue-light']};
     }
 `
 const ClearSelectedBtn = styled.button`
@@ -28,12 +31,16 @@ const ClearSelectedBtn = styled.button`
     padding: 0;
     background: none;
     border: none;
-    color: ${colors.grey};
+    color: ${colors.white};
+    display: -inline-flex;
     &:hover,
     &:active,
     &:focus {
-        color: ${colors['grey-dark']};
+        color: 1px solid ${colors['blue-light']};
     }
+`
+const ButtonGroup = styled(BsButtonGroup)`
+    flex-flow: wrap;
 `
 const ClearSelectedToggle = ({ name, onClick }) => {
     return (
@@ -51,19 +58,14 @@ const RadioOption = ({
 }) => {
     return (
         <Option
-            onClick={onOptionClick}
+            onClick={value === selected ? onClearSelectedClick : onOptionClick}
             Button
             value={value}
             name={name}
             isActive={value === selected}
         >
             {value}
-            {value === selected && (
-                <ClearSelectedToggle
-                    name={name}
-                    onClick={onClearSelectedClick}
-                />
-            )}
+            {value === selected && <ClearSelectedToggle />}
         </Option>
     )
 }
@@ -77,7 +79,7 @@ const Radio = ({
     return (
         <Wrapper>
             <ItemLabel>{label}</ItemLabel>
-            <ButtonGroup aria-label="Basic example">
+            <ButtonGroup aria-label={label}>
                 {options.map((o) => (
                     <RadioOption
                         key={`radio-option-${o
