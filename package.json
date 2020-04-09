@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "build": "react-scripts build",
+        "build:client": "react-scripts build",
         "dev:client": "PORT=3000 react-scripts start",
         "dev:server": "PORT=3001 nodemon --watch server --exec babel-node ./server/app.js --config-file ./config/server.babel.json ",
         "dev:test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --watch --config-file ./config/server.babel.json",
@@ -12,7 +12,7 @@
         "test:client": "react-scripts test",
         "test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --config-file ./config/server.babel.json",
         "test": "yarn test:server && yarn test:client",
-        "heroku-postbuild": "yarn start"
+        "heroku-postbuild": "yarn build:client && yarn start"
     },
     "dependencies": {
         "@babel/cli": "^7.8.4",
