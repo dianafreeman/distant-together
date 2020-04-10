@@ -2,13 +2,13 @@
     "name": "distant-together",
     "version": "0.1.0",
     "private": true,
-    "main": "./server/app.js",
+    "main": "./server/index.js",
     "scripts": {
         "build:client": "react-scripts build",
         "build:server": "babel server --out-dir lib --config-file ./config/server.babel.json",
         "build": "yarn build:client && yarn build:server",
         "dev:client": "PORT=3000 react-scripts start",
-        "dev:server": "PORT=3001 nodemon --watch server --exec babel-node ./server/app.js --config-file ./config/server.babel.json ",
+        "dev:server": "PORT=3001 nodemon --watch server --exec babel-node ./server/index.js --config-file ./config/server.babel.json ",
         "dev": "concurrently \"yarn start\" \"yarn dev:client\"",
         "start": "node lib",
         "test:client": "react-scripts test",
@@ -44,6 +44,7 @@
         "react-router-dom": "^5.1.2",
         "react-scripts": "^3.4.1",
         "react-spring": "^8.0.27",
+        "react-use-measure": "^2.0.0",
         "styled-components": "^5.0.1"
     },
     "eslintConfig": {

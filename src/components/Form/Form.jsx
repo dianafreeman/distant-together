@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { useSpring, animated } from 'react-spring'
 import { inject, observer } from 'mobx-react'
 import styled from 'styled-components'
 import { default as BsForm } from 'react-bootstrap/Form'
@@ -6,44 +7,15 @@ import Radio from './Radio'
 import colors from '../../lib/theme/colors'
 import screens from '../../lib/theme/screens'
 import ItemLabel from './ItemLabel'
-import ResultsBar from './ResultsBar'
 import { getUniqueSet } from '../utils'
 
-const StaticWrapper = styled.div`
-position: relative;
-background-color: ${colors.white};
-z-index: 1;
-right:0;
-top: 0
-width: 100%;
-@media screen and (min-width: ${screens.md}){
-  width: 50%;
-  position: fixed;
-}
-
-@media screen and (min-width: ${screens.lg}){
-  width: 66.66667%
-}
-`
-const FormWrapper = styled.div`
-    z-index: 2;
-`
+const FormWrapper = styled.div``
 const FormContent = styled.div`
     margin: 0 1em;
-`
-const FormFooter = styled.div`
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    background: ${colors['grey-dark']};
-    color: ${colors.white};
-    padding: 0.5em;
 `
 const FormGroup = styled(BsForm.Group)`
     display: flex;
     width: 100%;
-    flex-flow: row wrap;
     margin: 1em 0em;
     justify-content: space-between;
 `
@@ -58,10 +30,23 @@ const FormEl = styled(BsForm)`
     margin: 0;
 `
 
-const Form = ({ store, onSearchTermChange, listLength, onOptionToggle }) => {
+const Form = ({ store }) => {
+    const ref = useRef()
+    const [height, setHeight] = useState(0)
+    const { h } = useSpring({
+        h: store.formIsOpen ? height : 0,
+    })
+    useEffect(() => {
+        setHeight(ref.current.clientHeight + ref.current.offsetHeight)
+    }, [])
     return (
-        <StaticWrapper>
-            <FormWrapper>
+        <animated.div
+            style={{
+                height: h.interpolate((h) => `${h}px`),
+                overflow: 'hidden',
+            }}
+        >
+            <FormWrapper ref={ref}>
                 <FormEl onSubmit={(e) => e.preventDefault()}>
                     <FormContent>
                         <FormGroup>
@@ -76,8 +61,6 @@ const Form = ({ store, onSearchTermChange, listLength, onOptionToggle }) => {
                             />
                         </FormGroup>
                         {store.filterOptions.map((f) => {
-                            // console.log('store.query[f]')
-                            // console.log(store.query[f])
                             return (
                                 <FormGroup>
                                     <Radio
@@ -102,12 +85,9 @@ const Form = ({ store, onSearchTermChange, listLength, onOptionToggle }) => {
                             )
                         })}
                     </FormContent>
-                    <FormFooter>
-                        <ResultsBar listLength={listLength} />
-                    </FormFooter>
                 </FormEl>
             </FormWrapper>
-        </StaticWrapper>
+        </animated.div>
     )
 }
 

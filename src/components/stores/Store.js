@@ -10,9 +10,12 @@ class Store {
     // ---------------------------------------------------------------------------
 
     isLoading = false
+    formIsOpen = true
+
     resources = []
     tags = []
     areas = []
+
     searchTerm = ''
     query = {
         'Source (Organization)': '',
@@ -23,9 +26,11 @@ class Store {
         Tags: '',
         'Release Date': '',
     }
+
     // below used in View!
     filterOptions = ['Resources For', 'Area']
     stringSearchOptions = ['Source (Organization)', 'Title']
+
     // Computed
     // ---------------------------------------------------------------------------
 
@@ -33,7 +38,7 @@ class Store {
         return this.resources.filter((resource) => {
             for (let key in this.query) {
                 // console.log(this.query[key])
-                if (this.query[key].length > 0) {
+                if (this.query[key] && this.query[key].length > 0) {
                     return this.filterWithRegex(resource, key)
                 }
             }
@@ -99,9 +104,14 @@ class Store {
     setLoading(bool) {
         return (this.isLoading = bool)
     }
+
+    toggleFormOpen = () => {
+        return (this.formIsOpen = !this.formIsOpen)
+    }
 }
 
 decorate(Store, {
+    formIsOpen: observable,
     isLoading: observable,
     resources: observable,
     tags: observable,
@@ -116,6 +126,7 @@ decorate(Store, {
     getAreas: action,
     useAllFilters: action,
     onSearchTermChange: action,
+    toggleFormOpen: action,
 })
 
 export default Store
