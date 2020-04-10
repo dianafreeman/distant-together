@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from 'react'
 import { inject, observer } from 'mobx-react'
+import { useSpring, animated } from 'react-spring'
 import styled from 'styled-components'
 import sitemeta from '../lib/sitemeta'
 import colors from '../lib/theme/colors'
@@ -68,6 +69,21 @@ const SectionFooter = styled.div`
     background: ${colors['grey-dark']};
     color: ${colors.white};
 `
+const Toggle = animated(styled.button`
+    background: none;
+    border-radius: 100px;
+    outline: none;
+    border: none;
+    color: ${colors.white};
+    &:hover,
+    &:active,
+    &:focus {
+        color: ${colors['blue-light']};
+        i {
+            color: ${colors['blue']};
+        }
+    }
+`)
 const ColTop = styled.div``
 
 const ColBottom = styled.div``
@@ -76,6 +92,9 @@ function Home({ store, isLoading }) {
     const [colHeight, setFixedColumnHeight] = useState(0)
     const topColRef = useRef(null)
 
+    const { rotation } = useSpring({
+        rotation: store.formIsOpen ? 0 : 180,
+    })
     useEffect(() => {
         let bottom =
             topColRef.current.offsetHeight + topColRef.current.offsetTop
@@ -113,7 +132,21 @@ function Home({ store, isLoading }) {
                     <ColTop ref={topColRef}>
                         <Form />
                         <SectionFooter>
-                            <ResultsBar listLength={store.filtered.length} />
+                            <ResultsBar
+                                onToggleClick={store.toggleFormOpen}
+                                listLength={store.filtered.length}
+                            >
+                                <Toggle
+                                    onClick={() => store.toggleFormOpen()}
+                                    style={{
+                                        transform: rotation.interpolate(
+                                            (r) => `rotate(${r}deg)`
+                                        ),
+                                    }}
+                                >
+                                    <i className={`fas fa-chevron-up`}> </i>
+                                </Toggle>
+                            </ResultsBar>
                         </SectionFooter>
                     </ColTop>
                     <ColBottom>
