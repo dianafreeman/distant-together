@@ -3,8 +3,8 @@ import { css } from 'styled-components'
 import { default as BsButtonGroup } from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import styled from 'styled-components'
-import colors from '../../lib/theme/colors'
-import ItemLabel from './ItemLabel'
+import colors from '../../../lib/theme/colors'
+import ItemLabel from '../Item/ItemLabel'
 
 const Wrapper = styled.div``
 const Option = styled(Button)`

@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useSpring, animated } from 'react-spring'
+import React, { useRef } from 'react'
 import { inject, observer } from 'mobx-react'
 import styled from 'styled-components'
 import { default as BsForm } from 'react-bootstrap/Form'
-import Radio from './Radio'
+import Radio from './Radio/Radio'
 import colors from '../../lib/theme/colors'
-import screens from '../../lib/theme/screens'
-import ItemLabel from './ItemLabel'
+import ItemLabel from './Item/ItemLabel'
+import Collapsible from '../Collapsible/Collapsible'
 import { getUniqueSet } from '../utils'
 
 const FormWrapper = styled.div``
@@ -31,35 +30,23 @@ const FormEl = styled(BsForm)`
 `
 
 const Form = ({ store }) => {
-    const ref = useRef()
-    const [height, setHeight] = useState(0)
-    const { h } = useSpring({
-        h: store.formIsOpen ? height : 0,
-    })
-    useEffect(() => {
-        setHeight(ref.current.clientHeight + ref.current.offsetHeight)
-    }, [])
+    const formRef = useRef(null)
     return (
-        <animated.div
-            style={{
-                height: h.interpolate((h) => `${h}px`),
-                overflow: 'hidden',
-            }}
-        >
-            <FormWrapper ref={ref}>
-                <FormEl onSubmit={(e) => e.preventDefault()}>
-                    <FormContent>
-                        <FormGroup>
-                            <ItemLabel>Search By Term</ItemLabel>
-                            <Input
-                                type="text"
-                                name="resource-search-term"
-                                placeholder={`What are you looking for?`}
-                                onChange={(e) =>
-                                    store.onSearchTermChange(e.target.value)
-                                }
-                            />
-                        </FormGroup>
+        <FormWrapper>
+            <FormEl onSubmit={(e) => e.preventDefault()}>
+                <FormContent>
+                    <FormGroup>
+                        <ItemLabel>Search By Term</ItemLabel>
+                        <Input
+                            type="text"
+                            name="resource-search-term"
+                            placeholder={`What are you looking for?`}
+                            onChange={(e) =>
+                                store.onSearchTermChange(e.target.value)
+                            }
+                        />
+                    </FormGroup>
+                    <Collapsible heightRef={formRef} isOpen={store.formIsOpen}>
                         {store.filterOptions.map((f) => {
                             return (
                                 <FormGroup>
@@ -84,10 +71,10 @@ const Form = ({ store }) => {
                                 </FormGroup>
                             )
                         })}
-                    </FormContent>
-                </FormEl>
-            </FormWrapper>
-        </animated.div>
+                    </Collapsible>
+                </FormContent>
+            </FormEl>
+        </FormWrapper>
     )
 }
 
