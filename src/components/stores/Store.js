@@ -13,8 +13,8 @@ class Store {
     formIsOpen = true
 
     resources = []
-    tags = []
-    areas = []
+    'Resources For' = []
+    Area = []
 
     searchTerm = ''
     query = {
@@ -28,8 +28,9 @@ class Store {
     }
 
     // below used in View!
+    // Resources For === Audience
     filterOptions = ['Resources For', 'Area']
-    stringSearchOptions = ['Source (Organization)', 'Title']
+    stringSearchOptions = ['Source (Organization)', 'Title', 'Tags']
 
     // Computed
     // ---------------------------------------------------------------------------
@@ -37,7 +38,6 @@ class Store {
     get filtered() {
         return this.resources.filter((resource) => {
             for (let key in this.query) {
-                // console.log(this.query[key])
                 if (this.query[key] && this.query[key].length > 0) {
                     return this.filterWithRegex(resource, key)
                 }
@@ -55,21 +55,22 @@ class Store {
     // Actions
     // ---------------------------------------------------------------------------
 
+    async getData() {
+        !this.isLoading && this.setLoading(true)
+        let resp = await Axios.get('/api/data', {
+            headers: { 'X-API-KEY': process.env.REACT_APP_MASTER_KEY },
+        })
+        // console.log(resp.data)
+        this['Area'] = resp.data.areas
+        this['Resources For'] = resp.data.audiences
+        this.setLoading(false)
+    }
     async getResources() {
-        this.setLoading(true)
+        !this.isLoading && this.setLoading(true)
         let resp = await Axios.get('/api/resources', {
             headers: { 'X-API-KEY': process.env.REACT_APP_MASTER_KEY },
         })
         this.resources = resp.data.response.resources
-        // console.log(this.resources)
-        return this.setLoading(false)
-    }
-    async getAreas() {
-        this.setLoading(true)
-        let resp = await Axios.get('/api/areas', {
-            headers: { 'X-API-KEY': process.env.APP_MASTER_KEY },
-        })
-        this.resources = resp.data.response.areas
         return this.setLoading(false)
     }
 
@@ -114,16 +115,18 @@ decorate(Store, {
     formIsOpen: observable,
     isLoading: observable,
     resources: observable,
+
     tags: observable,
-    areas: observable,
+    'Resources For': observable,
+    Area: observable,
     query: observable,
 
     filtered: computed,
 
-    // filterWithRegex: action,
-    // filterWithSingleTerm: action,
+    getData: action,
     getResources: action,
     getAreas: action,
+    getAudiences: action,
     useAllFilters: action,
     onSearchTermChange: action,
     toggleFormOpen: action,
