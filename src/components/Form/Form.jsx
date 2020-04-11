@@ -6,6 +6,8 @@ import Radio from './Radio/Radio'
 import colors from '../../lib/theme/colors'
 import ItemLabel from './Item/ItemLabel'
 import Collapsible from '../Collapsible/Collapsible'
+import { useSpring, animated } from 'react-spring'
+
 import { getUniqueSet } from '../utils'
 
 const FormWrapper = styled.div``
@@ -29,10 +31,44 @@ const FormEl = styled(BsForm)`
     margin: 0;
 `
 
+const Toggle = ({ onClick, label, isOpen }) => {
+    const { rotation } = useSpring({
+        rotation: isOpen ? 0 : 180,
+    })
+
+    const Icons = animated(styled.button`
+        background: none;
+        border-radius: 100px;
+        outline: none;
+        border: none;
+        color: ${colors.blue};
+        &:hover,
+        &:active,
+        &:focus {
+            color: ${colors['blue-light']};
+            i {
+                color: ${colors['blue']};
+            }
+        }
+    `)
+
+    return (
+        <div onClick={onClick}>
+            {label}
+            <Icons
+                style={{
+                    transform: rotation.interpolate((r) => `rotate(${r}deg)`),
+                }}
+            >
+                <i className={`fas fa-chevron-up`}></i>
+            </Icons>
+        </div>
+    )
+}
 const Form = ({ store }) => {
     const formRef = useRef(null)
     return (
-        <FormWrapper>
+        <FormWrapper ref={formRef}>
             <FormEl onSubmit={(e) => e.preventDefault()}>
                 <FormContent>
                     <FormGroup>
@@ -46,7 +82,7 @@ const Form = ({ store }) => {
                             }
                         />
                     </FormGroup>
-                    <Collapsible heightRef={formRef} isOpen={store.formIsOpen}>
+                    <Collapsible formRef={formRef} isOpen={store.formIsOpen}>
                         {store.filterOptions.map((f) => {
                             return (
                                 <FormGroup>
