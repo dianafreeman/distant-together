@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect, useLayoutEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import styled from 'styled-components'
 import { default as BsForm } from 'react-bootstrap/Form'
@@ -7,8 +7,8 @@ import colors from '../../lib/theme/colors'
 import ItemLabel from './Item/ItemLabel'
 import Collapsible from '../Collapsible/Collapsible'
 import { useSpring, animated } from 'react-spring'
-
-import { getUniqueSet } from '../utils'
+import useMeasure from 'react-use-measure'
+// import { getUniqueSet } from '../utils'
 
 const FormWrapper = styled.div``
 const FormContent = styled.div`
@@ -31,34 +31,34 @@ const FormEl = styled(BsForm)`
     margin: 0;
 `
 
+const Icon = animated(styled.button`
+    background: none;
+    padding: 0 1em;
+    border-radius: 100px;
+    outline: none;
+    border: none;
+    color: ${colors.blue};
+    &:hover,
+    &:active,
+    &:focus {
+        color: ${colors['blue-light']};
+        i {
+            color: ${colors['blue']};
+        }
+    }
+`)
+const Wrap = styled.div`
+    display: flex;
+    justify-content: center;
+    color: ${colors['blue-dark']};
+    width: 100%;
+    text-align: center;
+`
+
 const Toggle = ({ onClick, label, isOpen }) => {
     const { rotation } = useSpring({
         rotation: isOpen ? 0 : 180,
     })
-
-    const Icon = animated(styled.button`
-        background: none;
-        padding: 0 1em;
-        border-radius: 100px;
-        outline: none;
-        border: none;
-        color: ${colors.blue};
-        &:hover,
-        &:active,
-        &:focus {
-            color: ${colors['blue-light']};
-            i {
-                color: ${colors['blue']};
-            }
-        }
-    `)
-    const Wrap = styled.div`
-        display: flex;
-        justify-content: center;
-        color: ${colors['blue-dark']};
-        width: 100%;
-        text-align: center;
-    `
 
     return (
         <Wrap onClick={onClick}>
@@ -80,8 +80,11 @@ const Toggle = ({ onClick, label, isOpen }) => {
         </Wrap>
     )
 }
-const Form = ({ store }) => {
-    const formRef = useRef(null)
+const Form = ({ store, getBounds }) => {
+    const [formRef, bounds] = useMeasure()
+    useLayoutEffect(() => {
+        getBounds(bounds)
+    }, [bounds.height > 250])
     return (
         <FormWrapper ref={formRef}>
             <FormEl onSubmit={(e) => e.preventDefault()}>

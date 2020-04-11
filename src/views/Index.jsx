@@ -68,16 +68,18 @@ const SectionFooter = styled.div`
 
 function Index({ store, isLoading }) {
     const [colHeight, setFixedColumnHeight] = useState(0)
+    const [formBounds, setFormBounds] = useState(0)
     const topColRef = useRef(null)
 
+    const { colHeightSpring } = useSpring({
+        colHeightSpring: colHeight,
+    })
     useEffect(() => {
         function adjustHeight() {
-            let { offsetHeight, offsetTop } = topColRef.current
-            let bottom = offsetHeight + offsetTop
-            setFixedColumnHeight(window.innerHeight - bottom)
+            setFixedColumnHeight(window.innerHeight - formBounds.height)
         }
         adjustHeight()
-    }, [topColRef])
+    }, [formBounds])
 
     return (
         <FixedContainer className="container-fluid">
@@ -108,7 +110,7 @@ function Index({ store, isLoading }) {
                 </RelativeCol>
                 <RelativeCol className="col-md-7 col-lg-8">
                     <ColTop ref={topColRef}>
-                        <Form />
+                        <Form getBounds={(obj) => setFormBounds(obj)} />
                         <SectionFooter>
                             <ResultsBar
                                 onToggleClick={store.toggleFormOpen}
@@ -122,7 +124,7 @@ function Index({ store, isLoading }) {
                         horizontal={false}
                         style={{
                             position: 'fixed',
-                            height: colHeight,
+                            height: `80vh`,
                             overflow: 'hidden',
                         }}
                         stopScrollPropagation={true}
