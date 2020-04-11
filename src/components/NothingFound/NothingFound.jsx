@@ -3,20 +3,20 @@ import sadDog from '../../assets/sad-dog.png'
 
 const NothingFound = () => {
     return (
-        <div className="row">
-            <div className="col-sm-10 mx-auto">
-                <h1>Aw man!</h1>
-                <img src={sadDog} aria-hidden="true" />
-                <h4>
-                    There's nothing in our database that matches this
-                    description.
-                </h4>
-                <small>
-                    IMAGE CREDIT:{' '}
+        <div className="container">
+            <div className="row">
+                <div className="col-sm-8">
+                    <h1>Aw man!</h1>
+                    <p>
+                        There's nothing in our database that matches this
+                        description.
+                    </p>
+                </div>
+                <div className="col-sm-4">
                     <a href="httgtps://www.vecteezy.com/free-vector/sad-puppy">
-                        Sad Puppy Vectors by Vecteezy
+                        <img src={sadDog} aria-hidden="true" />
                     </a>
-                </small>
+                </div>
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { default as BsForm } from 'react-bootstrap/Form'
 import styled from 'styled-components'
-import colors from '../../lib/theme/colors'
+import colors from '../../../lib/theme/colors'
 
 const ItemLabel = styled(BsForm.Label)`
     text-transform: uppercase;

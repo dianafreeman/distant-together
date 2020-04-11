@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import Home from '../../views/Home'
+import Home from '../../views/Index'
 
 import './App.scss'
 
@@ -10,6 +10,7 @@ const App = ({ store }) => {
 
     useEffect(() => {
         store.getResources()
+        store.getData()
     }, [])
     return (
         <Router>

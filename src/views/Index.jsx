@@ -3,9 +3,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import { inject, observer } from 'mobx-react'
 import { useSpring, animated } from 'react-spring'
 import styled from 'styled-components'
+import ScrollArea from 'react-scrollbar'
 import sitemeta from '../lib/sitemeta'
 import colors from '../lib/theme/colors'
-import screens from '../lib/theme/screens'
+import { ColBottom, ColTop } from './layouts/Column'
 import Form from '../components/Form'
 import ListItem from '../components/ListItem'
 import NothingFound from '../components/NothingFound'
@@ -14,7 +15,7 @@ import ResultsBar from '../components/Form/ResultsBar'
 
 const LoadingIndicator = () => {
     return (
-        <div className="fa-3x">
+        <div className="fa-5x">
             <i className="fas fa-spinner fa-spin"></i>
         </div>
     )
@@ -54,11 +55,6 @@ const HeaderImage = styled.img`
     margin: auto;
 `
 
-const ScrollContainer = styled.div`
-    height: auto;
-    overflow: hidden scroll;
-`
-
 const SectionFooter = styled.div`
     bottom: 0;
     width: 100%;
@@ -69,32 +65,11 @@ const SectionFooter = styled.div`
     background: ${colors['grey-dark']};
     color: ${colors.white};
 `
-const Toggle = animated(styled.button`
-    background: none;
-    border-radius: 100px;
-    outline: none;
-    border: none;
-    color: ${colors.white};
-    &:hover,
-    &:active,
-    &:focus {
-        color: ${colors['blue-light']};
-        i {
-            color: ${colors['blue']};
-        }
-    }
-`)
-const ColTop = styled.div``
 
-const ColBottom = styled.div``
-
-function Home({ store, isLoading }) {
+function Index({ store, isLoading }) {
     const [colHeight, setFixedColumnHeight] = useState(0)
     const topColRef = useRef(null)
 
-    const { rotation } = useSpring({
-        rotation: store.formIsOpen ? 0 : 180,
-    })
     useEffect(() => {
         let bottom =
             topColRef.current.offsetHeight + topColRef.current.offsetTop
@@ -135,24 +110,22 @@ function Home({ store, isLoading }) {
                             <ResultsBar
                                 onToggleClick={store.toggleFormOpen}
                                 listLength={store.filtered.length}
-                            >
-                                <Toggle
-                                    onClick={() => store.toggleFormOpen()}
-                                    style={{
-                                        transform: rotation.interpolate(
-                                            (r) => `rotate(${r}deg)`
-                                        ),
-                                    }}
-                                >
-                                    <i className={`fas fa-chevron-up`}> </i>
-                                </Toggle>
-                            </ResultsBar>
+                            ></ResultsBar>
                         </SectionFooter>
                     </ColTop>
-                    <ColBottom>
-                        <ScrollContainer style={{ height: colHeight }}>
+                    <ScrollArea
+                        className="col-md-7 col-lg-8"
+                        contentClassName="content"
+                        horizontal={false}
+                        style={{
+                            position: 'fixed',
+                            height: colHeight,
+                        }}
+                        stopScrollPropagation={true}
+                    >
+                        <ColBottom>
                             {store.isLoading ? (
-                                <LoadingIndicator>LOADING</LoadingIndicator>
+                                <LoadingIndicator />
                             ) : store.filtered.length > 0 ? (
                                 store.filtered.map((r, idx) => (
                                     <ListItem
@@ -166,12 +139,12 @@ function Home({ store, isLoading }) {
                             ) : (
                                 <NothingFound />
                             )}
-                        </ScrollContainer>
-                    </ColBottom>
+                        </ColBottom>
+                    </ScrollArea>
                 </RelativeCol>
             </FixedRow>
         </FixedContainer>
     )
 }
 
-export default inject('store')(observer(Home))
+export default inject('store')(observer(Index))
