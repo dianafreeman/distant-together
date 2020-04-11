@@ -10,7 +10,6 @@ const ResultsBar = ({ listLength, onToggleClick, children, ...rest }) => {
     return (
         <>
             <Count>Showing {listLength} results</Count>
-            {children}
         </>
     )
 }

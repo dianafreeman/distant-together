@@ -7,6 +7,7 @@ const router = express.Router()
 /* GET resources */
 router.get('/', async function (req, res, next) {
     let json
+    console.log(CACHE.timestamp)
     if (!isMoreThan24HoursAgo(CACHE.timestamp)) {
         console.log('------- USING CACHE -------')
         json = CACHE
