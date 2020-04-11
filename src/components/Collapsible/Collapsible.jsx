@@ -11,14 +11,16 @@ const Collapsible = ({ isOpen, children }) => {
     useLayoutEffect(() => {
         function adjustHeight() {
             let { clientHeight } = heightRef.current
-            setHeight(clientHeight + 30)
+            setHeight(clientHeight)
         }
         setTimeout(() => adjustHeight(), 100)
     }, [heightRef])
     return (
         <animated.div
             style={{
-                height: h.interpolate((h) => `${h}px`),
+                height: h.interpolate(
+                    (h) => `calc(${h}px + ${isOpen ? '3em' : '10px'})`
+                ),
                 overflow: 'hidden',
             }}
         >

@@ -10,6 +10,7 @@ const App = ({ store }) => {
 
     useEffect(() => {
         store.getResources()
+        store.getData()
     }, [])
     return (
         <Router>

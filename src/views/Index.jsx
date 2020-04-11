@@ -15,7 +15,7 @@ import ResultsBar from '../components/Form/ResultsBar'
 
 const LoadingIndicator = () => {
     return (
-        <div className="fa-3x">
+        <div className="fa-5x">
             <i className="fas fa-spinner fa-spin"></i>
         </div>
     )
@@ -54,11 +54,6 @@ const HeaderImage = styled.img`
     max-width: 300px;
     margin: auto;
 `
-
-// const ScrollContainer = styled.div`
-//     height: auto;
-//     overflow: hidden scroll;
-// `
 
 const SectionFooter = styled.div`
     bottom: 0;
@@ -118,17 +113,19 @@ function Index({ store, isLoading }) {
                             ></ResultsBar>
                         </SectionFooter>
                     </ColTop>
-                    <ColBottom>
-                        <ScrollArea
-                            speed={0.8}
-                            className="area"
-                            contentClassName="content"
-                            horizontal={false}
-                            style={{ height: colHeight }}
-                            stopScrollPropagation={true}
-                        >
+                    <ScrollArea
+                        className="col-md-7 col-lg-8"
+                        contentClassName="content"
+                        horizontal={false}
+                        style={{
+                            position: 'fixed',
+                            height: colHeight,
+                        }}
+                        stopScrollPropagation={true}
+                    >
+                        <ColBottom>
                             {store.isLoading ? (
-                                <LoadingIndicator>LOADING</LoadingIndicator>
+                                <LoadingIndicator />
                             ) : store.filtered.length > 0 ? (
                                 store.filtered.map((r, idx) => (
                                     <ListItem
@@ -142,8 +139,8 @@ function Index({ store, isLoading }) {
                             ) : (
                                 <NothingFound />
                             )}
-                        </ScrollArea>
-                    </ColBottom>
+                        </ColBottom>
+                    </ScrollArea>
                 </RelativeCol>
             </FixedRow>
         </FixedContainer>

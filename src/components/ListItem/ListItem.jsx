@@ -21,10 +21,6 @@ const ListItem = ({ item }) => {
                     </GoArrow>{' '}
                 </FlexCol>
             </div>
-
-            <div style={{ position: 'absolute', left: '0', bottom: '0' }}>
-                <p>{item.Tags}</p>
-            </div>
         </ListRow>
     )
 }

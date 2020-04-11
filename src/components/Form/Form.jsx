@@ -36,8 +36,9 @@ const Toggle = ({ onClick, label, isOpen }) => {
         rotation: isOpen ? 0 : 180,
     })
 
-    const Icons = animated(styled.button`
+    const Icon = animated(styled.button`
         background: none;
+        padding: 0 1em;
         border-radius: 100px;
         outline: none;
         border: none;
@@ -51,18 +52,32 @@ const Toggle = ({ onClick, label, isOpen }) => {
             }
         }
     `)
+    const Wrap = styled.div`
+        display: flex;
+        justify-content: center;
+        color: ${colors['blue-dark']};
+        width: 100%;
+        text-align: center;
+    `
 
     return (
-        <div onClick={onClick}>
-            {label}
-            <Icons
+        <Wrap onClick={onClick}>
+            <Icon
+                style={{
+                    transform: rotation.interpolate((r) => `rotate(-${r}deg)`),
+                }}
+            >
+                <i className={`fas fa-chevron-up`}></i>
+            </Icon>
+            <span>{label}</span>
+            <Icon
                 style={{
                     transform: rotation.interpolate((r) => `rotate(${r}deg)`),
                 }}
             >
                 <i className={`fas fa-chevron-up`}></i>
-            </Icons>
-        </div>
+            </Icon>
+        </Wrap>
     )
 }
 const Form = ({ store }) => {
@@ -82,29 +97,37 @@ const Form = ({ store }) => {
                             }
                         />
                     </FormGroup>
+                    <Toggle
+                        onClick={store.toggleFormOpen}
+                        label={`${
+                            store.formIsOpen ? 'Hide' : 'Show'
+                        } more filters`}
+                        isOpen={store.formIsOpen}
+                    />
                     <Collapsible formRef={formRef} isOpen={store.formIsOpen}>
-                        {store.filterOptions.map((f) => {
+                        {store.filterOptions.map((f, idx) => {
                             return (
-                                <FormGroup>
-                                    <Radio
-                                        key={`radio-${f
-                                            .replace(' ', '-')
-                                            .toLowerCase()}`}
-                                        label={f}
-                                        selected={store.query[f]}
-                                        options={getUniqueSet(
-                                            store.resources,
-                                            f
-                                        )}
-                                        onOptionClick={store.onTermOptionChange}
-                                        onClearSelectedClick={(e) => {
-                                            e.preventDefault()
-                                            store.clearFiltersFor(
-                                                e.currentTarget.name
-                                            )
-                                        }}
-                                    />
-                                </FormGroup>
+                                <>
+                                    <FormGroup>
+                                        <Radio
+                                            key={`radio-${f
+                                                .replace(' ', '-')
+                                                .toLowerCase()}`}
+                                            label={f}
+                                            selected={store.query[f]}
+                                            options={store[f]}
+                                            onOptionClick={
+                                                store.onTermOptionChange
+                                            }
+                                            onClearSelectedClick={(e) => {
+                                                e.preventDefault()
+                                                store.clearFiltersFor(
+                                                    e.currentTarget.name
+                                                )
+                                            }}
+                                        />
+                                    </FormGroup>
+                                </>
                             )
                         })}
                     </Collapsible>
