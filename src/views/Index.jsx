@@ -71,10 +71,13 @@ function Index({ store, isLoading }) {
     const topColRef = useRef(null)
 
     useEffect(() => {
-        let bottom =
-            topColRef.current.offsetHeight + topColRef.current.offsetTop
-        setFixedColumnHeight(window.innerHeight - bottom)
-    }, [])
+        function adjustHeight() {
+            let { offsetHeight, offsetTop } = topColRef.current
+            let bottom = offsetHeight + offsetTop
+            setFixedColumnHeight(window.innerHeight - bottom)
+        }
+        adjustHeight()
+    }, [topColRef])
 
     return (
         <FixedContainer className="container-fluid">
