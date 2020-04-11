@@ -125,6 +125,7 @@ function Index({ store, isLoading }) {
                             contentClassName="content"
                             horizontal={false}
                             style={{ height: colHeight }}
+                            stopScrollPropagation={true}
                         >
                             {store.isLoading ? (
                                 <LoadingIndicator>LOADING</LoadingIndicator>
