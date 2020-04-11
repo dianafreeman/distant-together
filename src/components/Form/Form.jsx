@@ -99,9 +99,7 @@ const Form = ({ store }) => {
                     </FormGroup>
                     <Toggle
                         onClick={store.toggleFormOpen}
-                        label={`${
-                            store.formIsOpen ? 'Hide' : 'Show'
-                        } more filters`}
+                        label={`${store.formIsOpen ? 'Hide' : 'Show'}  filters`}
                         isOpen={store.formIsOpen}
                     />
                     <Collapsible formRef={formRef} isOpen={store.formIsOpen}>

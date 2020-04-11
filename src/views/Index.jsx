@@ -120,6 +120,7 @@ function Index({ store, isLoading }) {
                         style={{
                             position: 'fixed',
                             height: colHeight,
+                            overflow: 'hidden',
                         }}
                         stopScrollPropagation={true}
                     >

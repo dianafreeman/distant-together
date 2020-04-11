@@ -10,7 +10,7 @@ class Store {
     // ---------------------------------------------------------------------------
 
     isLoading = false
-    formIsOpen = true
+    formIsOpen = false
 
     resources = []
     'Resources For' = []
@@ -56,7 +56,7 @@ class Store {
     // ---------------------------------------------------------------------------
 
     async getData() {
-        !this.isLoading && this.setLoading(true)
+        this.setLoading(true)
         let resp = await Axios.get('/api/data', {
             headers: { 'X-API-KEY': process.env.REACT_APP_MASTER_KEY },
         })
@@ -66,7 +66,7 @@ class Store {
         this.setLoading(false)
     }
     async getResources() {
-        !this.isLoading && this.setLoading(true)
+        this.setLoading(true)
         let resp = await Axios.get('/api/resources', {
             headers: { 'X-API-KEY': process.env.REACT_APP_MASTER_KEY },
         })

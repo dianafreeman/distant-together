@@ -4,7 +4,9 @@ import colors from '../../lib/theme/colors'
 
 const Wrapper = styled.div``
 
-const Count = styled.span``
+const Count = styled.span`
+    margin: 0.5em;
+`
 
 const ResultsBar = ({ listLength, onToggleClick, children, ...rest }) => {
     return (

@@ -21,8 +21,7 @@ const Option = styled(Button)`
     &:focus {
         outline: none;
         border: 1px solid ${colors['blue-dark']};
-        background-color: ${colors['blue-dark']};
-        color: ${colors['blue-light']};
+        color: ${colors['blue-dark']};
     }
 `
 const ClearSelectedBtn = styled.button`
