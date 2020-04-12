@@ -1,26 +1,21 @@
-import React, { useState } from 'react'
-import { ListRow, Title, GoArrow, FlexCol, Source, Toggle } from './styled'
+import React from 'react'
+import { ListRow, Title, GoArrow, FlexCol } from './styled'
 
-const ListItem = ({ item }) => {
-    const [isOpen, setOpen] = useState(false)
+const ListItem = ({ item, divStyle, ...rest }) => {
     return (
-        <ListRow className="card">
-            <div className="col-sm-12">
-                <FlexCol justify="start">
-                    <div>
-                        <Title>{item.Title}</Title>
-                    </div>
-                </FlexCol>
-                <div style={{ width: '80%', float: 'left' }}>
+        <ListRow className="card p-1" {...rest} style={divStyle}>
+            <FlexCol justify="start" className="col-sm-8">
+                <div>
+                    <Title>{item.Title}</Title>
                     <p>{item['Source (Organization)']}</p>
                 </div>
+            </FlexCol>
 
-                <FlexCol justify="end">
-                    <GoArrow href={item.Link}>
-                        <i className="fas fa-arrow-right"> </i>
-                    </GoArrow>{' '}
-                </FlexCol>
-            </div>
+            <FlexCol justify="flex-end" className="col-sm-4">
+                <GoArrow href={item.Link}>
+                    <i className="fas fa-arrow-right"> </i>
+                </GoArrow>
+            </FlexCol>
         </ListRow>
     )
 }

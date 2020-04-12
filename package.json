@@ -9,7 +9,7 @@
         "build": "yarn build:client && yarn build:server",
         "dev:client": "PORT=3000 react-scripts start",
         "dev:server": "PORT=3001 nodemon --watch server --exec babel-node ./server/index.js --config-file ./config/server.babel.json ",
-        "dev": "concurrently \"yarn start\" \"yarn dev:client\"",
+        "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
         "start": "node lib",
         "test:client": "react-scripts test",
         "test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --config-file ./config/server.babel.json",
@@ -45,6 +45,9 @@
         "react-scripts": "^3.4.1",
         "react-scrollbar": "^0.5.6",
         "react-spring": "^8.0.27",
+        "react-use-measure": "^2.0.0",
+        "react-virtualized-auto-sizer": "^1.0.2",
+        "react-window": "^1.8.5",
         "styled-components": "^5.0.1"
     },
     "eslintConfig": {

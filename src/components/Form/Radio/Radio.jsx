@@ -1,5 +1,4 @@
 import React from 'react'
-import { css } from 'styled-components'
 import { default as BsButtonGroup } from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import styled from 'styled-components'
@@ -21,8 +20,7 @@ const Option = styled(Button)`
     &:focus {
         outline: none;
         border: 1px solid ${colors['blue-dark']};
-        background-color: ${colors['blue-dark']};
-        color: ${colors['blue-light']};
+        color: ${colors['blue-dark']};
     }
 `
 const ClearSelectedBtn = styled.button`

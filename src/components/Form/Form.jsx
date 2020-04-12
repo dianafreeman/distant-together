@@ -1,14 +1,10 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { inject, observer } from 'mobx-react'
 import styled from 'styled-components'
 import { default as BsForm } from 'react-bootstrap/Form'
 import Radio from './Radio/Radio'
 import colors from '../../lib/theme/colors'
 import ItemLabel from './Item/ItemLabel'
-import Collapsible from '../Collapsible/Collapsible'
-import { useSpring, animated } from 'react-spring'
-
-import { getUniqueSet } from '../utils'
 
 const FormWrapper = styled.div``
 const FormContent = styled.div`
@@ -81,56 +77,44 @@ const Toggle = ({ onClick, label, isOpen }) => {
     )
 }
 const Form = ({ store }) => {
-    const formRef = useRef(null)
     return (
         <FormWrapper ref={formRef}>
             <FormEl onSubmit={(e) => e.preventDefault()}>
                 <FormContent>
+                    {store.filterOptions.map((f, idx) => {
+                        return (
+                            <>
+                                <FormGroup>
+                                    <Radio
+                                        key={`radio-${f
+                                            .replace(' ', '-')
+                                            .toLowerCase()}`}
+                                        label={f}
+                                        selected={store.query[f]}
+                                        options={store[f]}
+                                        onOptionClick={store.onTermOptionChange}
+                                        onClearSelectedClick={(e) => {
+                                            e.preventDefault()
+                                            store.clearFiltersFor(
+                                                e.currentTarget.name
+                                            )
+                                        }}
+                                    />
+                                </FormGroup>
+                            </>
+                        )
+                    })}
                     <FormGroup>
-                        <ItemLabel>Search By Term</ItemLabel>
+                        <ItemLabel>Search By Keyword</ItemLabel>
                         <Input
                             type="text"
                             name="resource-search-term"
-                            placeholder={`What are you looking for?`}
+                            placeholder={`Looking for something specific?`}
                             onChange={(e) =>
                                 store.onSearchTermChange(e.target.value)
                             }
                         />
                     </FormGroup>
-                    <Toggle
-                        onClick={store.toggleFormOpen}
-                        label={`${
-                            store.formIsOpen ? 'Hide' : 'Show'
-                        } more filters`}
-                        isOpen={store.formIsOpen}
-                    />
-                    <Collapsible formRef={formRef} isOpen={store.formIsOpen}>
-                        {store.filterOptions.map((f, idx) => {
-                            return (
-                                <>
-                                    <FormGroup>
-                                        <Radio
-                                            key={`radio-${f
-                                                .replace(' ', '-')
-                                                .toLowerCase()}`}
-                                            label={f}
-                                            selected={store.query[f]}
-                                            options={store[f]}
-                                            onOptionClick={
-                                                store.onTermOptionChange
-                                            }
-                                            onClearSelectedClick={(e) => {
-                                                e.preventDefault()
-                                                store.clearFiltersFor(
-                                                    e.currentTarget.name
-                                                )
-                                            }}
-                                        />
-                                    </FormGroup>
-                                </>
-                            )
-                        })}
-                    </Collapsible>
                 </FormContent>
             </FormEl>
         </FormWrapper>
