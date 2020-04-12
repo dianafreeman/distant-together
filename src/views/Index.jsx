@@ -1,17 +1,16 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
-import { useSpring, animated } from 'react-spring'
 import styled from 'styled-components'
-import ScrollArea from 'react-scrollbar'
 import sitemeta from '../lib/sitemeta'
 import colors from '../lib/theme/colors'
-import { ColBottom, ColTop } from './layouts/Column'
+import screens from '../lib/theme/screens'
 import Form from '../components/Form'
-import ListItem from '../components/ListItem'
 import NothingFound from '../components/NothingFound'
 import headerText from '../assets/headerText.png'
 import ResultsBar from '../components/Form/ResultsBar'
+import ResultsList from '../components/ResultsList'
+import StackedColumn from '../components/StackedColumn'
 
 const LoadingIndicator = () => {
     return (
@@ -22,11 +21,13 @@ const LoadingIndicator = () => {
 }
 
 const FixedContainer = styled.div`
-    height: 100vh;
     width: 100vw;
     overflow: hidden;
     top: 0;
     left: 0;
+    @media screen and (min-width: ${screens.md}) {
+        height: 100vh;
+    }
 `
 
 const FixedRow = styled.div`
@@ -36,23 +37,22 @@ const FixedRow = styled.div`
     display: flex;
 
 `
-const RelativeCol = styled.div`
-    position: relative;
-    margin: 0;
-    padding: 0;
-`
+
 const ColumnTitle = styled.h1`
-    margin: 1em 0;
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
-    font-size: 24px;
+    font-size: 26px;
     color: white;
-    line-height: 1.5em;
+    line-height: 1.25em;
+    text-align: center;
+    width: 100%;
 `
 
 const HeaderImage = styled.img`
-    max-width: 300px;
-    margin: auto;
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 2em;
+    display: flex;
 `
 
 const SectionFooter = styled.div`
@@ -66,82 +66,52 @@ const SectionFooter = styled.div`
     color: ${colors.white};
 `
 
-function Index({ store, isLoading }) {
-    const [colHeight, setFixedColumnHeight] = useState(0)
-    const topColRef = useRef(null)
-
+function Index({ store }) {
     useEffect(() => {
-        let bottom =
-            topColRef.current.offsetHeight + topColRef.current.offsetTop
-        setFixedColumnHeight(window.innerHeight - bottom)
-    }, [])
-
+        store.getResources()
+        store.getData()
+    }, [store])
     return (
         <FixedContainer className="container-fluid">
             <FixedRow className="row">
-                <RelativeCol
-                    className="col-md-5 col-lg-4 "
-                    style={{ backgroundColor: colors['grey-dark'] }}
+                <div
+                    className="col-md-5 col-lg-4"
+                    style={{
+                        backgroundColor: colors['grey-dark'],
+                        display: 'flex',
+                    }}
                 >
-                    <ColTop
-                        style={{
-                            margin: 'auto',
-                            textAlign: 'center',
-                            padding: '1em',
-                            paddingTop: '2em',
-                        }}
-                    >
+                    <div className="col-sm-12" style={{ margin: 'auto' }}>
                         <HeaderImage
                             src={headerText}
                             width="100%"
                             aria-hidden="true"
                             alt={sitemeta.title}
                         />
-                        <ColumnTitle className="my-auto">
-                            {sitemeta.subtitle}
-                        </ColumnTitle>
-                    </ColTop>
-                    <ColBottom></ColBottom>
-                </RelativeCol>
-                <RelativeCol className="col-md-7 col-lg-8">
-                    <ColTop ref={topColRef}>
-                        <Form />
-                        <SectionFooter>
-                            <ResultsBar
-                                onToggleClick={store.toggleFormOpen}
-                                listLength={store.filtered.length}
-                            ></ResultsBar>
-                        </SectionFooter>
-                    </ColTop>
-                    <ScrollArea
-                        className="col-md-7 col-lg-8"
-                        contentClassName="content"
-                        horizontal={false}
-                        style={{
-                            position: 'fixed',
-                            height: colHeight,
-                        }}
-                        stopScrollPropagation={true}
-                    >
-                        <ColBottom>
-                            {store.isLoading ? (
-                                <LoadingIndicator />
-                            ) : store.filtered.length > 0 ? (
-                                store.filtered.map((r, idx) => (
-                                    <ListItem
-                                        key={`list-item-${idx}-${r.Title.replace(
-                                            ' ',
-                                            '-'
-                                        ).toLowerCase()}`}
-                                        item={r}
-                                    />
-                                ))
-                            ) : (
-                                <NothingFound />
-                            )}
-                        </ColBottom>
-                    </ScrollArea>
-                </RelativeCol>
+                        <ColumnTitle>{sitemeta.subtitle}</ColumnTitle>
+                    </div>
+                </div>
+                <StackedColumn
+                    className="col-md-7 col-lg-8"
+                    TopSection={() => (
+                        <>
+                            <Form />
+                            <SectionFooter>
+                                <ResultsBar
+                                    listLength={() => store.filtered.length}
+                                />
+                            </SectionFooter>
+                        </>
+                    )}
+                >
+                    {store.isLoading ? (
+                        <LoadingIndicator />
+                    ) : store.resources.length > 0 ? (
+                        <ResultsList />
+                    ) : (
+                        <NothingFound />
+                    )}
+                </StackedColumn>
             </FixedRow>
         </FixedContainer>
     )

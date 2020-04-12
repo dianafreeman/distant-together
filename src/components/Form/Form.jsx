@@ -27,58 +27,9 @@ const FormEl = styled(BsForm)`
     margin: 0;
 `
 
-const Toggle = ({ onClick, label, isOpen }) => {
-    const { rotation } = useSpring({
-        rotation: isOpen ? 0 : 180,
-    })
-
-    const Icon = animated(styled.button`
-        background: none;
-        padding: 0 1em;
-        border-radius: 100px;
-        outline: none;
-        border: none;
-        color: ${colors.blue};
-        &:hover,
-        &:active,
-        &:focus {
-            color: ${colors['blue-light']};
-            i {
-                color: ${colors['blue']};
-            }
-        }
-    `)
-    const Wrap = styled.div`
-        display: flex;
-        justify-content: center;
-        color: ${colors['blue-dark']};
-        width: 100%;
-        text-align: center;
-    `
-
-    return (
-        <Wrap onClick={onClick}>
-            <Icon
-                style={{
-                    transform: rotation.interpolate((r) => `rotate(-${r}deg)`),
-                }}
-            >
-                <i className={`fas fa-chevron-up`}></i>
-            </Icon>
-            <span>{label}</span>
-            <Icon
-                style={{
-                    transform: rotation.interpolate((r) => `rotate(${r}deg)`),
-                }}
-            >
-                <i className={`fas fa-chevron-up`}></i>
-            </Icon>
-        </Wrap>
-    )
-}
 const Form = ({ store }) => {
     return (
-        <FormWrapper ref={formRef}>
+        <FormWrapper>
             <FormEl onSubmit={(e) => e.preventDefault()}>
                 <FormContent>
                     {store.filterOptions.map((f, idx) => {
