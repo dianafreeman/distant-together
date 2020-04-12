@@ -14,7 +14,7 @@ const NothingFound = () => {
                 </div>
                 <div className="col-sm-4">
                     <a href="httgtps://www.vecteezy.com/free-vector/sad-puppy">
-                        <img src={sadDog} aria-hidden="true" />
+                        <img src={sadDog} alt="Sad Dog" aria-hidden="true" />
                     </a>
                 </div>
             </div>

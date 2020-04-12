@@ -1,19 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import colors from '../../lib/theme/colors'
-
-const Wrapper = styled.div``
+import { inject, observer } from 'mobx-react'
 
 const Count = styled.span`
     margin: 0.5em;
 `
 
-const ResultsBar = ({ listLength, onToggleClick, children, ...rest }) => {
+const ResultsBar = ({ store }) => {
+    let length = store.filtered.length
     return (
         <>
-            <Count>Showing {listLength} results</Count>
+            <Count>
+                Showing {length > 0 ? length : 'no'} result
+                {length === 1 ? '' : 's'}
+            </Count>
         </>
     )
 }
 
-export default ResultsBar
+export default inject('store')(observer(ResultsBar))

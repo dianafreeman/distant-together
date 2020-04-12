@@ -4,12 +4,14 @@ import colors from '../../lib/theme/colors'
 export const ListRow = styled.div`
     position: relative;
     background-color: ${colors.white};
-    padding: 1em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    margin-bottom: 20px !important;
     display: flex;
     width: 100%;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    transition: backround-color 0.5s;
+    &:hover {
+        background-color: ${colors['blue-light']};
+    }
 `
 
 export const Title = styled.p`

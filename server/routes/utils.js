@@ -64,9 +64,11 @@ export const createUniqueSet = (data, key) => {
 const ignoreTrailingSpaces = (array) => {
     let out = []
     for (let a in array) {
-        if (out.indexOf(array[a].trim()) === -1) {
-            out.push(array[a].trim())
+        if (out.indexOf(withoutWhitespace(array[a])) === -1) {
+            out.push(withoutWhitespace(array[a]))
         }
     }
     return out
 }
+
+const withoutWhitespace = (val) => val.trim()
