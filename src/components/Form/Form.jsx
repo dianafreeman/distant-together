@@ -37,6 +37,7 @@ const Form = ({ store }) => {
                             <>
                                 <FormGroup>
                                     <Radio
+                                        disabled={store.searchTerm.length > 1}
                                         key={`radio-${f
                                             .replace(' ', '-')
                                             .toLowerCase()}`}

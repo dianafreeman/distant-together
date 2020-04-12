@@ -6,7 +6,6 @@ import sitemeta from '../lib/sitemeta'
 import colors from '../lib/theme/colors'
 import screens from '../lib/theme/screens'
 import Form from '../components/Form'
-import NothingFound from '../components/NothingFound'
 import headerText from '../assets/headerText.png'
 import ResultsBar from '../components/Form/ResultsBar'
 import ResultsList from '../components/ResultsList'
@@ -106,10 +105,8 @@ function Index({ store }) {
                 >
                     {store.isLoading ? (
                         <LoadingIndicator />
-                    ) : store.resources.length > 0 ? (
-                        <ResultsList />
                     ) : (
-                        <NothingFound />
+                        <ResultsList />
                     )}
                 </StackedColumn>
             </FixedRow>

@@ -7,12 +7,21 @@ const Count = styled.span`
 `
 
 const ResultsBar = ({ store }) => {
-    let length = store.filtered.length
+    const length = store.filtered.length
+    const numberOfResults = length > 0 ? length : 'no'
+    const audience = store.query["Resources For"]
+    const term = store.query.searchTerm
+
+    const hasAudienceTerm = audience && audience.length > 0
+    const hasSearchTerm = term && term.length > 0
+
+    const audienceMessage =`${hasAudienceTerm ? `for ${audience}` : ''}`
+    const termMessage =`${hasSearchTerm ? `matching term ${store.searchTerm}` : ''}`
+    // console.log(store.searchTerm)
     return (
         <>
             <Count>
-                Showing {length > 0 ? length : 'no'} result
-                {length === 1 ? '' : 's'}
+                {`Showing ${numberOfResults} ${length === 1 ? 'result' : 'results'} ${audienceMessage} ${termMessage}`}
             </Count>
         </>
     )

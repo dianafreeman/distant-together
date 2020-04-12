@@ -72,6 +72,7 @@ class Store {
     }
 
     onSearchTermChange(term) {
+        this.searchTerm = term;
         return (this.query = {
             ...this.query,
             'Source (Organization)': term,
