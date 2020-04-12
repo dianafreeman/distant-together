@@ -28,6 +28,7 @@ const FormEl = styled(BsForm)`
 `
 
 const Form = ({ store }) => {
+    console.log(store.searchTerm.length > 0)
     return (
         <FormWrapper>
             <FormEl onSubmit={(e) => e.preventDefault()}>
@@ -65,6 +66,7 @@ const Form = ({ store }) => {
                             onChange={(e) =>
                                 store.onSearchTermChange(e.target.value)
                             }
+                            onSubmit={(e) => e.preventDefault()}
                         />
                     </FormGroup>
                 </FormContent>
