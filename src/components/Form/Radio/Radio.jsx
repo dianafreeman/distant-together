@@ -1,5 +1,4 @@
 import React from 'react'
-import { css } from 'styled-components'
 import { default as BsButtonGroup } from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import styled from 'styled-components'
@@ -12,17 +11,26 @@ const Option = styled(Button)`
     border-radius: 5px;
     border: none;
     border: 1px solid ${colors['blue-dark']};
-    color: ${(props) =>
-        props.isActive ? colors['blue-light'] : colors['blue-dark']};
+    color: ${props =>
+        props.isActive ? colors.white : colors['blue-dark']};
     background-color: ${(props) =>
         props.isActive ? colors['blue-dark'] : colors['blue-light']};
+     &:disabled {
+         background-color: gray;
+         color: dark-gray;
+
+     }
+
     &:hover,
     &:active,
     &:focus {
+        background-color: ${(props) =>
+        props.isActive ? colors['blue-dark'] : colors['blue']};
         outline: none;
+            color: ${(props) =>
+        props.isActive ? colors['blue-light']: colors['white'] };
+
         border: 1px solid ${colors['blue-dark']};
-        background-color: ${colors['blue-dark']};
-        color: ${colors['blue-light']};
     }
 `
 const ClearSelectedBtn = styled.button`
@@ -55,6 +63,7 @@ const RadioOption = ({
     selected,
     onOptionClick,
     onClearSelectedClick,
+    disabled
 }) => {
     return (
         <Option
@@ -63,6 +72,7 @@ const RadioOption = ({
             value={value}
             name={name}
             isActive={value === selected}
+            disabled={disabled}
         >
             {value}
             {value === selected && <ClearSelectedToggle />}

@@ -1,6 +1,5 @@
-import { observable, computed, decorate, action, toJS } from 'mobx'
+import { observable, computed, decorate, action } from 'mobx'
 import Axios from 'axios'
-import RESOURCES from '../__fixtures__/resources'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -14,13 +13,11 @@ class Store {
 
     resources = []
     'Resources For' = []
-    Area = []
 
     searchTerm = ''
     query = {
         'Source (Organization)': '',
         'Resources For': '',
-        Area: '',
         Title: '',
         Link: '',
         Tags: '',
@@ -29,7 +26,7 @@ class Store {
 
     // below used in View!
     // Resources For === Audience
-    filterOptions = ['Resources For', 'Area']
+    filterOptions = ['Resources For']
     stringSearchOptions = ['Source (Organization)', 'Title', 'Tags']
 
     // Computed
@@ -37,8 +34,11 @@ class Store {
 
     get filtered() {
         return this.resources.filter((resource) => {
+            // // let queryCount = 0
+            // COME BACK TO THIS -- filter optmization
             for (let key in this.query) {
                 if (this.query[key] && this.query[key].length > 0) {
+                    // queryCount++
                     return this.filterWithRegex(resource, key)
                 }
             }
@@ -47,7 +47,6 @@ class Store {
     }
 
     filterWithRegex(resource, key) {
-        // console.log(this.query[key])
         const pattern = new RegExp(this.query[key], 'i')
         return resource[key].match(pattern)
     }
@@ -56,17 +55,15 @@ class Store {
     // ---------------------------------------------------------------------------
 
     async getData() {
-        !this.isLoading && this.setLoading(true)
-        let resp = await Axios.get('/api/data', {
+        this.setLoading(true)
+        let resp = await Axios.get('/api/metadata', {
             headers: { 'X-API-KEY': process.env.REACT_APP_MASTER_KEY },
         })
-        // console.log(resp.data)
-        this['Area'] = resp.data.areas
         this['Resources For'] = resp.data.audiences
         this.setLoading(false)
     }
     async getResources() {
-        !this.isLoading && this.setLoading(true)
+        this.setLoading(true)
         let resp = await Axios.get('/api/resources', {
             headers: { 'X-API-KEY': process.env.REACT_APP_MASTER_KEY },
         })
@@ -75,6 +72,7 @@ class Store {
     }
 
     onSearchTermChange(term) {
+        this.searchTerm = term;
         return (this.query = {
             ...this.query,
             'Source (Organization)': term,

@@ -1,17 +1,30 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import colors from '../../lib/theme/colors'
+import { inject, observer } from 'mobx-react'
 
-const Wrapper = styled.div``
+const Count = styled.span`
+    margin: 0.5em;
+`
 
-const Count = styled.span``
+const ResultsBar = ({ store }) => {
+    const length = store.filtered.length
+    const numberOfResults = length > 0 ? length : 'no'
+    const audience = store.query["Resources For"]
+    const term = store.query.searchTerm
 
-const ResultsBar = ({ listLength, onToggleClick, children, ...rest }) => {
+    const hasAudienceTerm = audience && audience.length > 0
+    const hasSearchTerm = term && term.length > 0
+
+    const audienceMessage =`${hasAudienceTerm ? `for ${audience}` : ''}`
+    const termMessage =`${hasSearchTerm ? `matching term ${store.searchTerm}` : ''}`
+    // console.log(store.searchTerm)
     return (
         <>
-            <Count>Showing {listLength} results</Count>
+            <Count>
+                {`Showing ${numberOfResults} ${length === 1 ? 'result' : 'results'} ${audienceMessage} ${termMessage}`}
+            </Count>
         </>
     )
 }
 
-export default ResultsBar
+export default inject('store')(observer(ResultsBar))

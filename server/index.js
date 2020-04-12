@@ -7,7 +7,7 @@ import dotenv from 'dotenv'
 import http from 'http'
 import normalizePort from './utils/normalizePort'
 import resourcesRouter from './routes/resources'
-import dataRouter from './routes/data'
+import metadataRouter from './routes/metadata'
 import tagsRouter from './routes/tags'
 
 dotenv.config()
@@ -32,8 +32,8 @@ app.use('/api', (req, res, next) => {
         next()
     }
 })
+app.use('/api/metadata', metadataRouter)
 app.use('/api/resources', resourcesRouter)
-app.use('/api/data', dataRouter)
 app.use('/api/tags', tagsRouter)
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../build/index.html'))

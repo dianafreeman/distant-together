@@ -5,7 +5,7 @@ const router = express.Router()
 /* GET tags listing. */
 
 router.get('/', async function (req, res, next) {
-    const json = require('../data/cached.json')
+    const json = require('../../data/cached.json')
     let tagSet = createUniqueSet(json.resources, 'Tags')
     res.json({ response: { tags: tagSet } })
 })

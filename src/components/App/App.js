@@ -1,26 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { inject, observer } from 'mobx-react'
+import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Home from '../../views/Index'
 
 import './App.scss'
 
-const App = ({ store }) => {
-    const results = store.resources
-
-    useEffect(() => {
-        store.getResources()
-        store.getData()
-    }, [])
+const App = () => {
     return (
         <Router>
             <Switch>
                 <Route exact path="/">
-                    <Home store={store} />
+                    <Home />
                 </Route>
             </Switch>
         </Router>
     )
 }
 
-export default inject('store')(observer(App))
+export default App

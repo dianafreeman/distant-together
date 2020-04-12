@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { default as BsForm } from 'react-bootstrap/Form'
 import styled from 'styled-components'
 import colors from '../../../lib/theme/colors'

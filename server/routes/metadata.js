@@ -1,4 +1,4 @@
-const json = require('../data/cached')
+const json = require('../../data/cached')
 let areaSet = createUniqueSet(json.resources, 'Area')
 
 import express from 'express'
@@ -10,10 +10,9 @@ const router = express.Router()
 
 router.get('/', async function (req, res, next) {
     try {
-        const json = require('../data/cached')
-        let areaSet = createUniqueSet(json.resources, 'Area')
+        const json = require('../../data/cached')
         let audienceSet = createUniqueSet(json.resources, 'Resources For')
-        res.json({ areas: areaSet, audiences: audienceSet })
+        res.json({ audiences: audienceSet })
     } catch (err) {
         res.status(500)
         res.json({ error: err.message })
