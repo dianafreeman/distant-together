@@ -3,7 +3,6 @@ import { createUniqueSet } from './utils'
 import path from 'path'
 
 const json = require(path.resolve(__dirname, '../../data/cached'))
-let areaSet = createUniqueSet(json.resources, 'Area')
 
 const router = express.Router()
 

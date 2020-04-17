@@ -45,11 +45,14 @@ const ColumnTitle = styled.h1`
     line-height: 1.25em;
     text-align: center;
     width: 100%;
+    margin-bottom: 1em;
 `
 
 const HeaderImage = styled.img`
     max-width: 400px;
     width: 100%;
+    margin: auto;
+    padding-top: 1em;
     margin-bottom: 2em;
     display: flex;
 `
@@ -103,11 +106,7 @@ function Index({ store }) {
                         </>
                     )}
                 >
-                    {store.isLoading ? (
-                        <LoadingIndicator />
-                    ) : (
-                        <ResultsList />
-                    )}
+                    {store.isLoading ? <LoadingIndicator /> : <ResultsList />}
                 </StackedColumn>
             </FixedRow>
         </FixedContainer>

@@ -23,15 +23,13 @@ const ResultsList = ({ store }) => {
     return data.length === 0 ? (
         <NothingFound />
     ) : (
-        <div>
-            <SimpleBar id={'scrollContainer'} style={{ maxHeight: '500px' }}>
-                {data.map((d, index) => (
-                    <LazyLoad scrollContainer={'#scrollContainer'} resize>
-                        <Item item={d} index={index} />
-                    </LazyLoad>
-                ))}
-            </SimpleBar>
-        </div>
+        <SimpleBar id={'scrollContainer'} style={{ maxHeight: '80vh' }}>
+            {data.map((d, index) => (
+                <LazyLoad scrollContainer={'#scrollContainer'} resize>
+                    <Item item={d} index={index} />
+                </LazyLoad>
+            ))}
+        </SimpleBar>
     )
 }
 
