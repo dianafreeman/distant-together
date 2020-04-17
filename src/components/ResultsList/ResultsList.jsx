@@ -1,20 +1,18 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
-import { FixedSizeList } from 'react-window'
+import LazyLoad from 'react-lazyload'
+import SimpleBar from 'simplebar-react'
 import ListItem from '../ListItem'
 import NothingFound from '../NothingFound'
-
-
-const GUTTER_SIZE = 5
+import 'simplebar/dist/simplebar.min.css'
 
 const ResultsList = ({ store }) => {
     let data = store.filtered
 
-    const Item = ({ style, index, ...rest }) => (
+    const Item = ({ item, index, ...rest }) => (
         <ListItem
-            divStyle={style}
-            item={data[index]}
-            key={`list-item-${index}-${data[index].Title.replace(
+            item={item}
+            key={`list-item-${index}-${item.Title.replace(
                 ' ',
                 '-'
             ).toLowerCase()}`}
@@ -22,11 +20,18 @@ const ResultsList = ({ store }) => {
         />
     )
 
-
-    return data.length === 0 ? <NothingFound /> : (
-        <FixedSizeList height={600} itemCount={data.length} itemSize={100}>
-            {Item}
-        </FixedSizeList>
+    return data.length === 0 ? (
+        <NothingFound />
+    ) : (
+        <div>
+            <SimpleBar id={'scrollContainer'} style={{ maxHeight: '500px' }}>
+                {data.map((d, index) => (
+                    <LazyLoad scrollContainer={'#scrollContainer'} resize>
+                        <Item item={d} index={index} />
+                    </LazyLoad>
+                ))}
+            </SimpleBar>
+        </div>
     )
 }
 
