@@ -2,9 +2,11 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
+import {Provider} from './../stores';
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+test('renders title', () => {
+  const { getByText } = render(<Provider><App /></Provider>);
+  const title = getByText(/mental health resources/i);
+  expect(title).toBeInTheDocument();
 });

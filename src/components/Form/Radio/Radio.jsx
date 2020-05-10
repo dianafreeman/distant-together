@@ -11,24 +11,22 @@ const Option = styled(Button)`
     border-radius: 5px;
     border: none;
     border: 1px solid ${colors['blue-dark']};
-    color: ${props =>
-        props.isActive ? colors.white : colors['blue-dark']};
+    color: ${(props) => (props.isActive ? colors.white : colors['blue-dark'])};
     background-color: ${(props) =>
         props.isActive ? colors['blue-dark'] : colors['blue-light']};
-     &:disabled {
-         background-color: gray;
-         color: dark-gray;
-
-     }
+    &:disabled {
+        background-color: gray;
+        color: dark-gray;
+    }
 
     &:hover,
     &:active,
     &:focus {
         background-color: ${(props) =>
-        props.isActive ? colors['blue-dark'] : colors['blue']};
+            props.isActive ? colors['blue-dark'] : colors['blue']};
         outline: none;
-            color: ${(props) =>
-        props.isActive ? colors['blue-light']: colors['white'] };
+        color: ${(props) =>
+            props.isActive ? colors['blue-light'] : colors['white']};
 
         border: 1px solid ${colors['blue-dark']};
     }
@@ -63,7 +61,7 @@ const RadioOption = ({
     selected,
     onOptionClick,
     onClearSelectedClick,
-    disabled
+    disabled,
 }) => {
     return (
         <Option

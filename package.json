@@ -5,13 +5,13 @@
     "main": "./server/index.js",
     "scripts": {
         "build:client": "react-scripts build",
-        "build:server": "babel server --out-dir lib --config-file ./config/server.babel.json",
+        "build:server": "babel server --out-dir dist --config-file ./config/server.babel.json",
         "build": "yarn build:client && yarn build:server",
         "dev:client": "PORT=3000 react-scripts start",
         "dev:server": "PORT=3001 nodemon --watch server --exec babel-node ./server/index.js --config-file ./config/server.babel.json ",
         "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
-        "start": "node lib",
-        "test:client": "react-scripts test",
+        "start": "node dist",
+        "test:client": "react-scripts test --watchAll=false",
         "test:server": "babel-node ./node_modules/.bin/mocha server/**/*.spec.js --config-file ./config/server.babel.json",
         "test": "yarn test:server && yarn test:client"
     },
@@ -25,10 +25,8 @@
         "@babel/preset-react": "^7.9.4",
         "axios": "^0.19.2",
         "bootstrap": "^4.4.1",
-        "chai-http": "^4.3.0",
         "cookie-parser": "^1.4.5",
         "dotenv": "^8.2.0",
-        "eslint-config-prettier": "^6.10.1",
         "express": "^4.17.1",
         "googleapis": "39",
         "mobx": "^5.15.4",
@@ -71,14 +69,16 @@
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
         "@testing-library/user-event": "^7.1.2",
+        "chai-http": "^4.3.0",
         "chai": "^4.2.0",
         "concurrently": "^5.1.0",
-        "eslint": "^6.8.0",
+        "eslint-config-prettier": "^6.10.1",
         "eslint-plugin-prettier": "^3.1.2",
         "eslint-plugin-react": "^7.19.0",
+        "eslint": "^6.8.0",
         "mocha": "^7.1.1",
         "mock-require": "^3.0.3",
-        "sinon": "^9.0.1",
-        "sinon-chai": "^3.5.0"
+        "sinon-chai": "^3.5.0",
+        "sinon": "^9.0.1"
     }
 }

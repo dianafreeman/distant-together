@@ -28,7 +28,6 @@ const FormEl = styled(BsForm)`
 `
 
 const Form = ({ store }) => {
-    console.log(store.searchTerm.length > 0)
     return (
         <FormWrapper>
             <FormEl onSubmit={(e) => e.preventDefault()}>
@@ -36,7 +35,11 @@ const Form = ({ store }) => {
                     {store.filterOptions.map((f, idx) => {
                         return (
                             <>
-                                <FormGroup>
+                                <FormGroup
+                                    key={`form-group-${f
+                                        .replace(' ', '-')
+                                        .toLowerCase()}`}
+                                >
                                     <Radio
                                         disabled={store.searchTerm.length > 1}
                                         key={`radio-${f
