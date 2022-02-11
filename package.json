@@ -35,7 +35,7 @@
         "mobx-react": "^6.1.8",
         "morgan": "^1.10.0",
         "mz": "^2.7.0",
-        "node-sass": "^4.13.1",
+        "node-sass": "^7.0.0",
         "nodemon": "^2.0.2",
         "prettier": "^2.0.2",
         "react": "^16.13.1",
